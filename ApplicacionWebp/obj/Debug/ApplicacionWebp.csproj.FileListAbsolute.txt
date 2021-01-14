@@ -84,3 +84,7 @@ C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\obj\Debug\Appli
 C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\obj\Debug\ApplicacionWebp.csproj.CopyComplete
 C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\obj\Debug\ApplicacionWebp.dll
 C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\obj\Debug\ApplicacionWebp.pdb
+C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\bin\EntityFramework.dll
+C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\bin\EntityFramework.SqlServer.dll
+C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\bin\EntityFramework.xml
+C:\Users\ossanchezc\source\repos\ApplicacionWebp\ApplicacionWebp\bin\EntityFramework.SqlServer.xml
