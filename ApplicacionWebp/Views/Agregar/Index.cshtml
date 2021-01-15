@@ -1,0 +1,42 @@
+﻿@model List<ApplicacionWebp.Models.ViewModels.ListTablaViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1 class="text-center ">Usuarios</h1>
+
+<div class="row">
+    <div class="container">
+        <table class="table table-responsive">
+            <tr>
+                <th>Nomber</th>
+                <th>Apellido Paterno</th>
+                <th>Apellido Materno</th>
+                <th>Edad</th>
+                <th>Activo</th>
+                <th>Agregar</th>
+                <th>Editar</th>
+                <th>Eliminar</th>
+            </tr>
+            @foreach (var oUsuario in Model)
+            {
+        <tr>
+            <th>@oUsuario.Nombre</th>
+            <th>@oUsuario.Apellido_Paterno</th>
+            <th>@oUsuario.Apellido_Materno</th>
+            <th>@oUsuario.Edad</th>
+            <th>@oUsuario.isactive</th>
+            <th>
+                <a href="#" class="btn btn-success" id="agregar">Agregar</a>
+            </th>
+            <th>
+                <a href="#" class="btn btn-primary" id="editar">Editar</a>
+            </th>
+            <th>
+                <a href="#" class="btn btn-danger" id="Eliminar">Eliminar</a>
+            </th>
+        </tr>
+            }
+        </table>
+    </div>
+</div>
