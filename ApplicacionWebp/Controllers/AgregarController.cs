@@ -26,7 +26,6 @@ namespace ApplicacionWebp.Controllers
                            Edad = d.edad,
                            isactive = d.isactve
                        }).ToList();
-
             }
 
                 return View(lst);

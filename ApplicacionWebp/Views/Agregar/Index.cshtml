@@ -7,7 +7,7 @@
 
 <div class="row">
     <div class="container">
-        <table class="table table-responsive">
+        <table class="table">
             <tr>
                 <th>Nomber</th>
                 <th>Apellido Paterno</th>
@@ -27,16 +27,54 @@
             <th>@oUsuario.Edad</th>
             <th>@oUsuario.isactive</th>
             <th>
-                <a href="#" class="btn btn-success" id="agregar">Agregar</a>
+                <button class="btn btn-success" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
             </th>
             <th>
-                <a href="#" class="btn btn-primary" id="editar">Editar</a>
+                <button class="btn btn-primary" data-target="#modalCrearEditar" data-toggle="modal" id="editar">Editar</button>
             </th>
             <th>
-                <a href="#" class="btn btn-danger" id="Eliminar">Eliminar</a>
+                <button class="btn btn-danger" id="eliminar">Eliminar</button>
             </th>
         </tr>
             }
         </table>
+
+        <div class="modal" id="modalCrearEditar" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 class="text-center">Crear Usuario</h2>
+                    </div>
+                    <div class="modal-body">
+
+                        <form role="form">
+
+                                <div class="form-group">
+
+                                    <input type="text" placeholder="Nombre" class="form-control" name="nombre" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Apellido Paterno" class="form-control" name="apellioP" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Apellido Materno" class="form-control" name="apellidoM" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" placeholder="Edad" class="form-control" name="edad" />
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="isactive">
+                                       <option>Activo</option>
+                                        <option>No activo</option>
+                                    </select>
+                                </div>
+
+                        </form>
+
+                        <button class="btn btn-success btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
