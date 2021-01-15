@@ -27,8 +27,7 @@ namespace ApplicacionWebp.Controllers
                            isactive = d.isactve
                        }).ToList();
             }
-
-                return View(lst);
+            return View(lst);
         }
     }
 }
