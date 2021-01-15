@@ -3,6 +3,7 @@
     ViewBag.Title = "Index";
 }
 
+
 <h1 class="text-center ">Usuarios</h1>
 
 <div class="row">
@@ -14,30 +15,27 @@
                 <th>Apellido Materno</th>
                 <th>Edad</th>
                 <th>Activo</th>
-                <th>Agregar</th>
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
             @foreach (var oUsuario in Model)
             {
-        <tr>
-            <th>@oUsuario.Nombre</th>
-            <th>@oUsuario.Apellido_Paterno</th>
-            <th>@oUsuario.Apellido_Materno</th>
-            <th>@oUsuario.Edad</th>
-            <th>@oUsuario.isactive</th>
-            <th>
-                <button class="btn btn-success" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
-            </th>
-            <th>
-                <button class="btn btn-primary" data-target="#modalCrearEditar" data-toggle="modal" id="editar">Editar</button>
-            </th>
-            <th>
-                <button class="btn btn-danger" id="eliminar">Eliminar</button>
-            </th>
-        </tr>
+                <tr>
+                    <th>@oUsuario.Nombre</th>
+                    <th>@oUsuario.Apellido_Paterno</th>
+                    <th>@oUsuario.Apellido_Materno</th>
+                    <th>@oUsuario.Edad</th>
+                    <th>@oUsuario.isactive</th>
+                    <th>
+                        <button class="btn btn-primary" data-target="#modalCrearEditar" data-toggle="modal" id="editar">Editar</button>
+                    </th>
+                    <th>
+                        <button class="btn btn-danger" id="eliminar">Eliminar</button>
+                    </th>
+                </tr>
             }
         </table>
+        <button class="btn btn-success" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
 
         <div class="modal" id="modalCrearEditar" role="dialog">
             <div class="modal-dialog">
@@ -49,26 +47,28 @@
 
                         <form role="form">
 
-                                <div class="form-group">
+                            <input type="text" placeholder="Nombre" class="form-group form-control" name="nombre" />
 
-                                    <input type="text" placeholder="Nombre" class="form-control" name="nombre" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" placeholder="Apellido Paterno" class="form-control" name="apellioP" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" placeholder="Apellido Materno" class="form-control" name="apellidoM" />
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" placeholder="Edad" class="form-control" name="edad" />
-                                </div>
-                                <div class="form-group">
-                                    <select class="form-control" name="isactive">
-                                       <option>Activo</option>
-                                        <option>No activo</option>
-                                    </select>
-                                </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Apellido Paterno" class="form-control" name="apellioP" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Apellido Materno" class="form-control" name="apellidoM" />
+                            </div>
+                            <div class="form-group">
+                                <input type="text" placeholder="Edad" class="form-control" name="edad" />
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" name="isactive">
+                                    <option>Activo</option>
+                                    <option>No activo</option>
+                                </select>
+                            </div>
 
+                            <div class="form-group">
+                                <input class="btn btn-success" value="Agregar" id="agregarCampo" />
+                                <input class="btn btn-primary" style="display: none" value="Editar" id="editarAgregar" />
+                            </div>
                         </form>
 
                         <button class="btn btn-success btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
@@ -76,5 +76,11 @@
                 </div>
             </div>
         </div>
+
+
+
     </div>
 </div>
+
+
+<script src="~/Scripts/Modal.js"></script>
