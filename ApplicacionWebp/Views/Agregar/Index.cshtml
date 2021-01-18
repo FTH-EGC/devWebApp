@@ -24,7 +24,7 @@
 
             </tbody>
         </table>
-        <button class="btn btn-success" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
+        <button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
 
         <div class="modal fade" id="modalCrearEditar" role="dialog" style="margin-top: 65px">
             <div class="modal-dialog">
@@ -55,7 +55,7 @@
                                 @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class="form-control"} })
                             </div>
                             <div class="form-group">
-                                <input class="btn btn-success" value="Guardar" id="agregarCampo" />
+                                <input class="btn btn-success" value="Guardar" id="guardarEditar" />
                             </div>
                         </form>
 
@@ -85,16 +85,32 @@
                 <td scope="col">${DatosPersonas[i].Apellido_Materno}</td>
                 <td scope="col">${DatosPersonas[i].Edad}</td>
                 <td scope="col">${DatosPersonas[i].isactive}</td>
-                <td><a href="#" class="btn btn-primary" id="editar" onclick="EditarUsuario" data-target="#modalCrearEditar" data-toggle="modal">Editar</a></td>
-                <td><a href="#" class="btn btn-danger"  onclick="EliminarUsuario">Eliminar</a></td>
+                <td><a href="#" class="btn btn-primary" id="editar" onclick="EditarUsuario()" data-target="#modalCrearEditar" data-toggle="modal">Editar</a></td>
+                <td><a href="#" class="btn btn-danger"  onclick="EliminarUsuario()">Eliminar</a></td>
             </tr>
          `;
-            SetData.append(Data);
+
+                SetData.append(Data);
         }
     }
 
     function EditarUsuario() {
-        console.log('Editando');
+        const titulo = document.querySelector("#titulo");
+        const btnEditar = document.querySelector("#guardarEditar");
+        titulo.textContent = "Editar Usuario";
+        btnEditar.classList.remove("btn-success");
+        btnEditar.classList.add("btn-primary");
+        btnEditar.value = "Editar";
     }
 
+
+    function AgregarUsuario() {
+        $("#form")[0].reset();
+        const titulo = document.querySelector("#titulo");
+        const btnEditar = document.querySelector("#guardarEditar");
+        titulo.textContent = "Crear Nuevo Usuario";
+        btnEditar.classList.remove("btn-primary");
+        btnEditar.classList.add("btn-success");
+        btnEditar.value = "Crear Nuevo";
+    } 
 </script>
