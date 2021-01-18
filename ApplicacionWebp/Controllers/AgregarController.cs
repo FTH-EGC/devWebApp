@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using ApplicacionWebp.Models.ViewModels;
 using ApplicacionWebp.Models;
+using Newtonsoft.Json;
 
 namespace ApplicacionWebp.Controllers
 {
@@ -35,6 +36,21 @@ namespace ApplicacionWebp.Controllers
 
 
             return Json(lst, JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult GetUsuarioById(int UserId)
+        {
+            tbl_datos model = db.tbl_datos.Where(d => d.id == UserId).SingleOrDefault();
+            string value = string.Empty;
+
+            value = JsonConvert.SerializeObject(model, Formatting.Indented, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            }); 
+
+            return Json(value, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

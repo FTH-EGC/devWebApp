@@ -12,6 +12,7 @@
     <div class="container">
         <table class="table">
             <tr>
+                <th>ID</th>
                 <th>Nombre</th>
                 <th>Apellido Paterno</th>
                 <th>Apellido Materno</th>
@@ -80,13 +81,14 @@
         for (var i = 0; i <= DatosPersonas.length; i++) {
             var Data = `
             <tr>
+                <td scope="col">${DatosPersonas[i].Id}</td>
                 <td scope="col">${DatosPersonas[i].Nombre}</td>
                 <td scope="col">${DatosPersonas[i].Apellido_Paterno}</td>
                 <td scope="col">${DatosPersonas[i].Apellido_Materno}</td>
                 <td scope="col">${DatosPersonas[i].Edad}</td>
                 <td scope="col">${DatosPersonas[i].isactive}</td>
-                <td><a href="#" class="btn btn-primary" id="editar" onclick="EditarUsuario()" data-target="#modalCrearEditar" data-toggle="modal">Editar</a></td>
-                <td><a href="#" class="btn btn-danger"  onclick="EliminarUsuario()">Eliminar</a></td>
+                <td><a href="#" class="btn btn-primary" id="editar" onclick="EditarUsuario(${DatosPersonas[i].Id})" data-target="#modalCrearEditar" data-toggle="modal">Editar</a></td>
+                <td><a href="#" class="btn btn-danger"  onclick="EliminarUsuario(${DatosPersonas[i].id})">Eliminar</a></td>
             </tr>
          `;
 
@@ -98,13 +100,37 @@
         $("#form")[0].reset();
     }
 
-    function EditarUsuario() {
+    function EditarUsuario(UserId) {
+        var url = "/Agregar/GetUsuarioById?UserId=" + UserId;
+       $("#form")[0].reset();
         const titulo = document.querySelector("#titulo");
         const btnEditar = document.querySelector("#guardarEditar");
         titulo.textContent = "Editar Usuario";
         btnEditar.classList.remove("btn-success");
         btnEditar.classList.add("btn-primary");
         btnEditar.value = "Editar";
+        $.ajax({
+            type: "GET",
+            url: url,
+            success: function (data) {
+                const usId = document.querySelector("#UsuNombre");
+                const nombre = document.querySelector("#UsuNombre");
+                const apellidoP = document.querySelector("#UsuApellidoP");
+                const apellidoM = document.querySelector("#UsuApellidoM");
+                const edad = document.querySelector("#UsuEdad");
+                const select = document.querySelector("#form select");
+                var obj = JSON.parse(data);
+
+                usId.value = obj.id;
+                nombre.value = obj.nombre;
+                apellidoP.value = obj.apellido_paterno;
+                apellidoM.value = obj.apellido_materno;
+                edad.value = obj.edad;
+                select.value = obj.isactve;
+                
+            }
+        })
+
 
     }
 
@@ -120,8 +146,8 @@
     } 
 
 
-    function guardarRegistro(event) {
-        event.preventDefault();
+    function guardarRegistro(e) {
+        e.preventDefault();
         const nombre = document.querySelector("#UsuNombre");
         const apellidoP = document.querySelector("#UsuApellidoP");
         const apellidoM = document.querySelector("#UsuApellidoM");
@@ -148,10 +174,8 @@
             texto.textContent = mensaje;
             div.appendChild(texto);
             if (tipo === 'error') {
-                div.classList.remove('alert', 'text-center', 'alert-success', 'alerta');
                 div.classList.add('alert', 'text-center', 'alert-danger', 'alerta');
             } else {
-                div.classList.remove('alert', 'text-center', 'alert-danger', 'alerta');
                 div.classList.add('alert', 'text-center', 'alert-success', 'alerta');
 
             }
@@ -159,14 +183,12 @@
             modalBody.insertBefore(div, modalBody.children[0]);
 
             setTimeout(() => {
-
                 div.remove();
             }, 2000)
         }
 
-
-
-
     }
+
+
 
 </script>
