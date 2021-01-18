@@ -1,7 +1,9 @@
-﻿@model List<ApplicacionWebp.Models.ViewModels.ListTablaViewModel>
+﻿@model ApplicacionWebp.Models.ViewModels.ListTablaViewModel
 @{
     ViewBag.Title = "Index";
 }
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 
 
 <h1 class="text-center ">Usuarios</h1>
@@ -10,7 +12,7 @@
     <div class="container">
         <table class="table">
             <tr>
-                <th>Nomber</th>
+                <th>Nombre</th>
                 <th>Apellido Paterno</th>
                 <th>Apellido Materno</th>
                 <th>Edad</th>
@@ -18,60 +20,46 @@
                 <th>Editar</th>
                 <th>Eliminar</th>
             </tr>
-            @foreach (var oUsuario in Model)
-            {
-                <tr>
-                    <th>@oUsuario.Nombre</th>
-                    <th>@oUsuario.Apellido_Paterno</th>
-                    <th>@oUsuario.Apellido_Materno</th>
-                    <th>@oUsuario.Edad</th>
-                    <th>@oUsuario.isactive</th>
-                    <th>
-                        <button class="btn btn-primary" data-target="#modalCrearEditar" data-toggle="modal" id="editar">Editar</button>
-                    </th>
-                    <th>
-                        <button class="btn btn-danger" id="eliminar">Eliminar</button>
-                    </th>
-                </tr>
-            }
+            <tbody id="GetData">
+
+            </tbody>
         </table>
         <button class="btn btn-success" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
 
-        <div class="modal" id="modalCrearEditar" role="dialog">
+        <div class="modal fade" id="modalCrearEditar" role="dialog" style="margin-top: 65px">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h2 class="text-center">Crear Usuario</h2>
+                        <h2 class="text-center" id="titulo"></h2>
                     </div>
                     <div class="modal-body">
 
-                        <form role="form">
+                        <form role="form" id="form">
 
-                            <input type="text" placeholder="Nombre" class="form-group form-control" name="nombre" id="nombreInput"/>
-
+                            <fieldset id="submitForm">
+                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId" })
+                            </fieldset>
                             <div class="form-group">
-                                <input type="text" placeholder="Apellido Paterno" class="form-control" name="apellioP" id="apellidoPInput"/>
+                                @Html.TextBoxFor(m => m.Nombre, new { @id = "UsuNombre", @class= "form-control", @placeholder="Nombre del Usuario" })
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Apellido Materno" class="form-control" name="apellidoM" id="apellidoMInput"/>
+                                @Html.TextBoxFor(m => m.Apellido_Paterno, new { @id = "UsuApellidoP", @class= "form-control", @placeholder="Apellido Paterno" })
                             </div>
                             <div class="form-group">
-                                <input type="text" placeholder="Edad" class="form-control" name="edad" id="edadInput"/>
+                                @Html.TextBoxFor(m => m.Apellido_Materno, new { @id = "UsuApellidoM", @class= "form-control", @placeholder="Apellido Materno" })
                             </div>
                             <div class="form-group">
-                                <select class="form-control" name="isactive" id="select">
-                                    <option>Activo</option>
-                                    <option>No activo</option>
-                                </select>
+                                @Html.TextBoxFor(m => m.Edad, new { @id = "UsuEdad" , @class = "form-control", @placeholder ="Edad"})
                             </div>
-
                             <div class="form-group">
-                                <input class="btn btn-success" value="Agregar" id="agregarCampo" />
-                                <input class="btn btn-primary" style="display: none" value="Editar" id="editarAgregar" />
+                                @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class="form-control"} })
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-success" value="Guardar" id="agregarCampo" />
                             </div>
                         </form>
 
-                        <button class="btn btn-info btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
+                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
                     </div>
                 </div>
             </div>
@@ -83,4 +71,30 @@
 </div>
 
 
-<script src="~/Scripts/Modal.js"></script>
+<script>
+    $.get("/Agregar/GetData", null, DataBind);
+
+
+    function DataBind(DatosPersonas) {
+        var SetData = $("#GetData");
+        for (var i = 0; i <= DatosPersonas.length; i++) {
+            var Data = `
+            <tr>
+                <td scope="col">${DatosPersonas[i].Nombre}</td>
+                <td scope="col">${DatosPersonas[i].Apellido_Paterno}</td>
+                <td scope="col">${DatosPersonas[i].Apellido_Materno}</td>
+                <td scope="col">${DatosPersonas[i].Edad}</td>
+                <td scope="col">${DatosPersonas[i].isactive}</td>
+                <td><a href="#" class="btn btn-primary" id="editar" onclick="EditarUsuario" data-target="#modalCrearEditar" data-toggle="modal">Editar</a></td>
+                <td><a href="#" class="btn btn-danger"  onclick="EliminarUsuario">Eliminar</a></td>
+            </tr>
+         `;
+            SetData.append(Data);
+        }
+    }
+
+    function EditarUsuario() {
+        console.log('Editando');
+    }
+
+</script>
