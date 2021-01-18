@@ -55,11 +55,11 @@
                                 @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class="form-control"} })
                             </div>
                             <div class="form-group">
-                                <input class="btn btn-success" value="Guardar" id="guardarEditar" />
+                                <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="guardarEditar" />
                             </div>
                         </form>
 
-                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
+                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal" onclick="resetearForm()">Cerrar&times;</button>
                     </div>
                 </div>
             </div>
@@ -94,6 +94,10 @@
         }
     }
 
+    function resetearForm() {
+        $("#form")[0].reset();
+    }
+
     function EditarUsuario() {
         const titulo = document.querySelector("#titulo");
         const btnEditar = document.querySelector("#guardarEditar");
@@ -101,6 +105,7 @@
         btnEditar.classList.remove("btn-success");
         btnEditar.classList.add("btn-primary");
         btnEditar.value = "Editar";
+
     }
 
 
@@ -113,4 +118,55 @@
         btnEditar.classList.add("btn-success");
         btnEditar.value = "Crear Nuevo";
     } 
+
+
+    function guardarRegistro(event) {
+        event.preventDefault();
+        const nombre = document.querySelector("#UsuNombre");
+        const apellidoP = document.querySelector("#UsuApellidoP");
+        const apellidoM = document.querySelector("#UsuApellidoM");
+        const edad = document.querySelector("#UsuEdad");
+        const select = document.querySelector("#form select");
+
+        if (nombre.value === "" || apellidoP.value === "" || apellidoM.value === "" || edad.value === "" || select.value === "") {
+
+            mostrarAlerta("Todos los campos son oblgatorios", "error");
+            return;
+        }
+            mostrarAlerta("Guardando...", "success");
+            $("#form")[0].reset();
+
+    }
+
+    function mostrarAlerta(mensaje, tipo) {
+        const alerta = document.querySelector('.alerta');
+
+        if (!alerta) {
+            const div = document.createElement('div');
+            const texto = document.createElement('p');
+            const modalBody = document.querySelector('.modal-body');
+            texto.textContent = mensaje;
+            div.appendChild(texto);
+            if (tipo === 'error') {
+                div.classList.remove('alert', 'text-center', 'alert-success', 'alerta');
+                div.classList.add('alert', 'text-center', 'alert-danger', 'alerta');
+            } else {
+                div.classList.remove('alert', 'text-center', 'alert-danger', 'alerta');
+                div.classList.add('alert', 'text-center', 'alert-success', 'alerta');
+
+            }
+
+            modalBody.insertBefore(div, modalBody.children[0]);
+
+            setTimeout(() => {
+
+                div.remove();
+            }, 2000)
+        }
+
+
+
+
+    }
+
 </script>
