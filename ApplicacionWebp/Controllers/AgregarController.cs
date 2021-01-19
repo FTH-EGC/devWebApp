@@ -15,9 +15,11 @@ namespace ApplicacionWebp.Controllers
         usuariosEntities db = new usuariosEntities();
         public ActionResult Index()
         {
-
+            
             return View();
         }
+
+
 
 
         public JsonResult GetData()
@@ -50,6 +52,35 @@ namespace ApplicacionWebp.Controllers
             }); 
 
             return Json(value, JsonRequestBehavior.AllowGet);
+
+        }
+
+
+        public JsonResult SaveDatainDB(ListTablaViewModel model)
+        {
+
+            var result = false;
+            try
+            {
+
+                if (model.Id > 0)
+                {
+                    tbl_datos usu = db.tbl_datos.SingleOrDefault(d => d.id == model.Id);
+                    usu.nombre = model.Nombre;
+                    usu.apellido_paterno = model.Apellido_Paterno;
+                    usu.apellido_materno = model.Apellido_Materno;
+                    usu.edad = model.Edad;
+                    usu.isactve = model.isactive;
+                    db.SaveChanges();
+                    result = true;
+                }
+
+            }
+            catch (Exception ex) {
+                throw ex;
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
 
         }
     }
