@@ -82,11 +82,39 @@
     function resetearForm() {
         $("#form")[0].reset();
     }
+    //Crea los datos y Muestra la tabla
+    cargarDatos();
+    function cargarDatos() {
+        $.ajax({
+            type: "GET",
+            url: "/Agregar/GetInfo",
+            success: function (data) {
+                data.forEach(da => {
+                    //console.log(da);
+
+                    const tablaInfo = document.querySelector("#GetData");
+
+                    tablaInfo.innerHTML += `
+                        <tr>
+                            <td>${da.Id}</td>
+                            <td>${da.Nombre}</td>
+                            <td>${da.Apellido_Paterno}</td>
+                            <td>${da.Apellido_Materno}</td>
+                            <td>${da.Edad}</td>
+                            <td>${da.isactive}</td>
+                            <td><a class="btn btn-primary" onclick="EditarUsuario(${da.Id})" data-target="#modalCrearEditar" data-toggle="modal">Editar</a> </td>
+                            <td><a class="btn btn-danger" onclick="EliminarUsuario()">Eliminar</a> </td>
+                        </tr>
+                    `;
+                })
+            }
+        })
+    }
+
 
 
     //Trae la informacion de la BD y la muestra en los inputs
-    function EditarUsuario() {
-        //var url = "/Agregar/GetUsuarioById?UserId=" + UserId;
+    function EditarUsuario(userId) {
 
         const titulo = document.querySelector("#titulo");
         const btnEditar = document.querySelector("#guardarEditar");
@@ -95,35 +123,33 @@
         btnEditar.classList.add("btn-primary");
         btnEditar.value = "Editar";
 
-    }
+        console.log(userId);
 
-    document.addEventListener("DOMContentLoaded", () => {
         $.ajax({
-            type: "GET",
-            url: "/Agregar/GetInfo",
-            success: function (data) {
-                data.forEach(da => {
-                    console.log(da);
+            type: "POST",
+            url: "/Agregar/GetUsuarioById",
+            data: { 'UserId': userId },
+            success: function (oData) {
 
-                    const tablaInfo = document.querySelector("#GetData");
+                console.log(oData);
+                const idInput = document.querySelector("#UsuId");
+                const nombre = document.querySelector("#UsuNombre");
+                const apellidoP = document.querySelector("#UsuApellidoP");
+                const apellidoM = document.querySelector("#UsuApellidoM");
+                const edad = document.querySelector("#UsuEdad");
+                const select = document.querySelector("#form select");
 
+                idInput.value = oData.id;
+                nombre.value = oData.Nombre;
+                apellidoP.value = oData.Apellido_Paterno;
+                apellidoM.value = oData.Apellido_Materno;
+                edad.value = oData.Edad;
+                select.value = oData.isactive;
 
-                    tablaInfo.innerHTML += `
-                        <tr>
-                        <th>${da.Id}</th>
-                        <th>${da.Nombre}</th>
-                        <th>${da.Apellido_Paterno}</th>
-                        <th>${da.Apellido_Materno}</th>
-                        <th>${da.Edad}</th>
-                        <th>${da.isactive}</th>
-                        <th><a class="btn btn-primary" onclick="EditarUsuario()" data-target="#modalCrearEditar" data-toggle="modal">Editar</a> </th>
-                        <th><a class="btn btn-danger" onclick="EliminarUsuario()">Eliminar</a> </th>
-                        </tr>
-                    `;
-                })
             }
         })
-    });
+
+    }
 
     //Boton de agregar
     function AgregarUsuario() {
@@ -151,9 +177,7 @@
             return;
 
         }
-        var data = $("#submitForm").serialize();
-
-
+        
     }
 
 
