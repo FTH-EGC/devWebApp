@@ -10,7 +10,23 @@
 
 <div class="row">
     <div class="container">
-        @Html.Partial("Tablas")
+        <div class="container">
+            <table class="table">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                    <th>Edad</th>
+                    <th>Activo</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+                <tbody id="GetData">
+                </tbody>
+            </table>
+        </div>
+
 
         <button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
 
@@ -47,7 +63,6 @@
                                 </div>
                             </fieldset>
                         </form>
-
                         <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal" onclick="resetearForm()">Cerrar&times;</button>
                     </div>
                 </div>
@@ -70,8 +85,8 @@
 
 
     //Trae la informacion de la BD y la muestra en los inputs
-    function EditarUsuario(UserId) {
-        var url = "/Agregar/GetUsuarioById?UserId=" + UserId;
+    function EditarUsuario() {
+        //var url = "/Agregar/GetUsuarioById?UserId=" + UserId;
 
         const titulo = document.querySelector("#titulo");
         const btnEditar = document.querySelector("#guardarEditar");
@@ -79,30 +94,36 @@
         btnEditar.classList.remove("btn-success");
         btnEditar.classList.add("btn-primary");
         btnEditar.value = "Editar";
-        $.ajax({
-            type: "GET",
-            url: url,
-            success: function (data) {
-                const usId = document.querySelector("#UsuId");
-                const nombre = document.querySelector("#UsuNombre");
-                const apellidoP = document.querySelector("#UsuApellidoP");
-                const apellidoM = document.querySelector("#UsuApellidoM");
-                const edad = document.querySelector("#UsuEdad");
-                const select = document.querySelector("#form select");
-                var obj = JSON.parse(data);
-
-                usId.value = obj.id;
-                nombre.value = obj.nombre;
-                apellidoP.value = obj.apellido_paterno;
-                apellidoM.value = obj.apellido_materno;
-                edad.value = obj.edad;
-                select.value = obj.isactve;
-                
-            }
-        })
-
 
     }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        $.ajax({
+            type: "GET",
+            url: "/Agregar/GetInfo",
+            success: function (data) {
+                data.forEach(da => {
+                    console.log(da);
+
+                    const tablaInfo = document.querySelector("#GetData");
+
+
+                    tablaInfo.innerHTML += `
+                        <tr>
+                        <th>${da.Id}</th>
+                        <th>${da.Nombre}</th>
+                        <th>${da.Apellido_Paterno}</th>
+                        <th>${da.Apellido_Materno}</th>
+                        <th>${da.Edad}</th>
+                        <th>${da.isactive}</th>
+                        <th><a class="btn btn-primary" onclick="EditarUsuario()" data-target="#modalCrearEditar" data-toggle="modal">Editar</a> </th>
+                        <th><a class="btn btn-danger" onclick="EliminarUsuario()">Eliminar</a> </th>
+                        </tr>
+                    `;
+                })
+            }
+        })
+    });
 
     //Boton de agregar
     function AgregarUsuario() {
@@ -132,14 +153,6 @@
         }
         var data = $("#submitForm").serialize();
 
-        $.ajax({
-            type: "POST",
-            url: "/Agregar/SaveDatainDB",
-            data: data,
-            success: function () {
-
-            }
-        })
 
     }
 

@@ -13,5 +13,6 @@ namespace ApplicacionWebp.Models.ViewModels
         public string Apellido_Materno { get; set; }
         public string Edad { get; set; }
         public Nullable<bool> isactive { get; set; }
+
     }
 }

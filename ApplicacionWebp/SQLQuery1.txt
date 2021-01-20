@@ -1,0 +1,64 @@
+-- ================================================
+-- Template generated from Template Explorer using:
+-- Create Procedure (New Menu).SQL
+--
+-- Use the Specify Values for Template Parameters 
+-- command (Ctrl-Shift-M) to fill in the parameter 
+-- values below.
+--
+-- This block of comments will not be included in
+-- the definition of the procedure.
+-- ================================================
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+
+ALTER PROCEDURE sp_Admin
+
+	@userId INTEGER = 0,
+	@nombre VARCHAR(50) = null,
+	@apellido_paterno VARCHAR(50) = null,
+	@apellido_materno VARCHAR(50) = null,
+	@edad VARCHAR(10) = null,
+	@isactve BIT = 0,
+	@Action VARCHAR(max) = null
+
+AS	
+
+IF (@Action = 'READ')
+BEGIN
+	SELECT * FROM tbl_datos;
+END
+
+ELSE
+
+IF (@Action = 'CREATE')
+BEGIN
+	INSERT INTO tbl_datos VALUES (@nombre,@apellido_paterno,@apellido_materno,@edad,@isactve);
+END
+
+ELSE
+
+IF (@Action = 'UPDATE')
+BEGIN
+	UPDATE tbl_datos SET nombre = @nombre, apellido_paterno = @apellido_paterno, 
+	apellido_materno = @apellido_materno, 
+	edad = @edad, isactve = @isactve WHERE id = @UserId;
+END
+
+ELSE
+
+IF (@Action = 'DELETE')
+BEGIN
+	DELETE FROM tbl_datos WHERE id = @UserId;
+END
+
+
+GO
+

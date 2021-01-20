@@ -131,6 +131,7 @@
     <Compile Include="Controllers\AgregarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\tbl_datosController.cs" />
+    <Compile Include="DataAccess\DataAccessLayout.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

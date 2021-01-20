@@ -1,0 +1,31 @@
+                List<ListTablaViewModel> usuList = null;
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myCon"].ToString());
+                SqlCommand cmd = new SqlCommand("sp_Admin", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Userid", null);
+                cmd.Parameters.AddWithValue("@nombre", null);
+                cmd.Parameters.AddWithValue("@apellido_paterno", null);
+                cmd.Parameters.AddWithValue("@apellido_materno", null);
+                cmd.Parameters.AddWithValue("@edad", null);
+                cmd.Parameters.AddWithValue("@isactve", null);
+                cmd.Parameters.AddWithValue("@Action", "READ");
+                con.Open();
+
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                usuList = new List<ListTablaViewModel>();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    ListTablaViewModel usuObj = ListTablaViewModel();
+                    usuObj.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Userid"].ToString());
+                    usuObj.Nombre = ds.Tables[0].Rows[i]["nombre"].ToString();
+                    usuObj.Apellido_Paterno = ds.Tables[0].Rows[i]["apellido_paterno"].ToString();
+                    usuObj.Apellido_Materno = ds.Tables[0].Rows[i]["apellido_materno"].ToString();
+                    usuObj.Edad = ds.Tables[0].Rows[i]["edad"].ToString();
+                    usuObj.isactive = ds.Tables[0].Rows[i]["isactve"].ToString();
+
+                    usuList.Add(usuObj);
+                }
+                return usuList;

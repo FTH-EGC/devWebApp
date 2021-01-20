@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using ApplicacionWebp.Models.ViewModels;
 using ApplicacionWebp.Models;
 using Newtonsoft.Json;
+using ApplicacionWebp.DataAccess;
+
 
 namespace ApplicacionWebp.Controllers
 {
@@ -21,23 +23,14 @@ namespace ApplicacionWebp.Controllers
 
 
 
-
-        public JsonResult GetData()
+        [HttpGet]
+        public JsonResult GetInfo()
         {
-            List<ListTablaViewModel> lst;
-            lst = (from d in db.tbl_datos
-                   select new ListTablaViewModel
-                   {
-                       Id = d.id,
-                       Nombre = d.nombre,
-                       Apellido_Paterno = d.apellido_paterno,
-                       Apellido_Materno = d.apellido_materno,
-                       Edad = d.edad,
-                       isactive = d.isactve
-                   }).ToList();
 
 
-            return Json(lst, JsonRequestBehavior.AllowGet);
+            DataAccessLayout objDB = new DataAccessLayout();
+
+            return Json(objDB.GetData(), JsonRequestBehavior.AllowGet);
         }
 
 
