@@ -108,6 +108,75 @@ namespace ApplicacionWebp.DataAccess
 
 
         }
+        public string  UpdateUser(ListTablaViewModel usuObj)
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+
+            try
+            {
+                string result = "";
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ToString());
+
+                SqlCommand cmd = new SqlCommand("sp_Admin", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Action", "UPDATE");
+                cmd.Parameters.AddWithValue("@userId", usuObj.Id);
+                cmd.Parameters.AddWithValue("@nombre", usuObj.Nombre);
+                cmd.Parameters.AddWithValue("@apellido_paterno", usuObj.Apellido_Paterno);
+                cmd.Parameters.AddWithValue("@apellido_materno", usuObj.Apellido_Materno);
+                cmd.Parameters.AddWithValue("@edad", usuObj.Edad);
+                cmd.Parameters.AddWithValue("@isactve", usuObj.isactive);
+
+                result = cmd.ExecuteScalar().ToString();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+
+        }
+
+        public int DELETE(int idUs)
+        {
+            SqlConnection con = null;
+            try
+            {
+
+                int result;
+
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ToString());
+                SqlCommand cmd = new SqlCommand("sp_Admin", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "DELETE");
+                cmd.Parameters.AddWithValue("@UserId", idUs);
+                SqlDataAdapter da = new SqlDataAdapter();
+                result = cmd.ExecuteNonQuery();
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+
+        }
+
 
 
     }

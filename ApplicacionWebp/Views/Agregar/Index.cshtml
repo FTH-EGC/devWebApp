@@ -59,11 +59,12 @@
                                     @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="guardarEditar" />
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(e)" value="Editar" id="EditarRe" />
+                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(e)" value="Guardar" id="GuardarRe" />
                                 </div>
                             </fieldset>
                         </form>
-                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal" onclick="resetearForm()">Cerrar&times;</button>
+                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
                     </div>
                 </div>
             </div>
@@ -103,7 +104,7 @@
                             <td>${da.Edad}</td>
                             <td>${da.isactive}</td>
                             <td><a class="btn btn-primary" onclick="EditarUsuario(${da.Id})" data-target="#modalCrearEditar" data-toggle="modal">Editar</a> </td>
-                            <td><a class="btn btn-danger" onclick="EliminarUsuario()">Eliminar</a> </td>
+                            <td><a class="btn btn-danger" onclick="EliminarUsuario(${da.Id})">Eliminar</a> </td>
                         </tr>
                     `;
                 })
@@ -117,11 +118,10 @@
     function EditarUsuario(userId) {
 
         const titulo = document.querySelector("#titulo");
-        const btnEditar = document.querySelector("#guardarEditar");
         titulo.textContent = "Editar Usuario";
-        btnEditar.classList.remove("btn-success");
-        btnEditar.classList.add("btn-primary");
-        btnEditar.value = "Editar";
+        const btnAgregar = document.querySelector("#GuardarRe");
+        btnAgregar.style.display = 'none';
+
 
         console.log(userId);
 
@@ -151,18 +151,16 @@
 
     }
 
-    //Boton de agregar
+    //Boton de agregar que esta fuera del modal
     function AgregarUsuario() {
 
         const titulo = document.querySelector("#titulo");
-        const btnEditar = document.querySelector("#guardarEditar");
         titulo.textContent = "Crear Nuevo Usuario";
-        btnEditar.classList.remove("btn-primary");
-        btnEditar.classList.add("btn-success");
-        btnEditar.value = "Crear Nuevo";
+        const btnAgregar = document.querySelector("#EditarRe");
+        btnAgregar.style.display = 'none';
     } 
 
-
+    //Guardar un registro nuevo
     function guardarRegistro(e) {
         e.preventDefault();
         const nombre = document.querySelector("#UsuNombre");
@@ -175,12 +173,26 @@
 
             mostrarAlerta("Todos los campos son obligatorios", "error");
             return;
-
         }
+
+
         
     }
 
+    //Elimina usuario de la BD
+    function EliminarUsuario(usuId) {
+            $.ajax({
+                type: "POST",
+                url: "/Agregar/DeleteUser",
+                data: { "UserId": usuId },
+                success: function () {
+                    console.log("Eiminado");
+                    console.log(usuId);
+                }
 
+            })
+
+    }
 
     function mostrarAlerta(mensaje, tipo) {
         const alerta = document.querySelector('.alerta');

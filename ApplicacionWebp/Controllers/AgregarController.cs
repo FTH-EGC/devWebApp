@@ -42,5 +42,21 @@ namespace ApplicacionWebp.Controllers
 
         }
 
+        public ActionResult DeleteUser(int UserId)
+        {
+            DataAccessLayout objDB = new DataAccessLayout();
+            int result = objDB.DELETE(UserId);
+
+            TempData["userOBJ"] = result;
+
+            ModelState.Clear();
+
+            return RedirectToAction ("index");
+
+
+        }
+
+
+
     }
 }
