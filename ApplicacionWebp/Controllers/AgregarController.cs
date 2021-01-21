@@ -70,7 +70,7 @@ namespace ApplicacionWebp.Controllers
             }
             else
             {
-                ModelState.AddModelError("", "Error en la insercion de datos");
+                ModelState.AddModelError("", "Error en la Edicion de datos");
                 return View();
             }
 

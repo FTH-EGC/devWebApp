@@ -4,19 +4,17 @@
 }
 
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 <h1 class="text-center ">Usuarios</h1>
 
 <button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar" style="margin: 30px">Agregar</button>
-
 
 <div class="row">
     <div class="container">
         <div class="container">
             <table class="table">
                 <tr>
-                    <th>ID</th>
                     <th>Nombre</th>
                     <th>Apellido Paterno</th>
                     <th>Apellido Materno</th>
@@ -41,7 +39,7 @@
                         <form role="form" id="form">
 
                             <fieldset id="submitForm">
-                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId" })
+                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId"})
 
                                 <div class="form-group">
                                     @Html.TextBoxFor(m => m.Nombre, new { @id = "UsuNombre", @class = "form-control", @placeholder = "Nombre del Usuario" })
@@ -59,8 +57,8 @@
                                     @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event, id)" value="Editar" id="EditarRe" />
                                     <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
                                 </div>
                             </fieldset>
                         </form>
@@ -97,7 +95,6 @@
 
                     tablaInfo.innerHTML += `
                         <tr>
-                            <td>${da.Id}</td>
                             <td>${da.Nombre}</td>
                             <td>${da.Apellido_Paterno}</td>
                             <td>${da.Apellido_Materno}</td>
@@ -112,11 +109,64 @@
         })
     }
 
+    //Boton de agregar que esta fuera del modal
+    function AgregarUsuario() {
 
+        const titulo = document.querySelector("#titulo");
+        titulo.textContent = "Crear Nuevo Usuario";
+        const btnEditar = document.querySelector("#EditarRe");
+        btnEditar.style.display = 'none';
+        const btnAgregar = document.querySelector("#GuardarRe");
+        btnAgregar.style.display = 'block';
+    }
+
+    //Guardar un registro nuevo
+    function guardarRegistro(event) {
+        event.preventDefault();
+        const nombre = document.querySelector("#UsuNombre");
+        const apellidoP = document.querySelector("#UsuApellidoP");
+        const apellidoM = document.querySelector("#UsuApellidoM");
+        const edad = document.querySelector("#UsuEdad");
+        const select = document.querySelector("#form select");
+
+
+        if (nombre.value === "" || apellidoP.value === "" || apellidoM.value === "" || edad.value === "" || select.value === "") {
+
+            mostrarAlerta("Todos los campos son obligatorios", "error");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/Agregar/CreateUser",
+            data: {
+                Nombre: nombre.value,
+                Apellido_Paterno: apellidoP.value,
+                Apellido_Materno: apellidoM.value,
+                Edad: edad.value,
+                isactive: select.value
+            },
+            success: function () {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Registro Guardado Correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+                limpiarHTML();
+                cargarDatos();
+
+                //console.log('Agregado');
+
+            }
+        });
+
+
+    }
 
     //Trae la informacion de la BD y la muestra en los inputs
     function EditarUsuario(userId) {
-
         const titulo = document.querySelector("#titulo");
         titulo.textContent = "Editar Usuario";
         const btnAgregar = document.querySelector("#GuardarRe");
@@ -124,7 +174,6 @@
         const btnEditar = document.querySelector("#EditarRe");
         btnEditar.style.display = "block";
 
-        //console.log(userId);
 
         $.ajax({
             type: "POST",
@@ -147,72 +196,24 @@
                 edad.value = oData.Edad;
                 select.value = oData.isactive;
 
-                //console.log(oData.Id);
+                //console.log(btnEdit);
 
             }
         })
 
     }
 
-    //Boton de agregar que esta fuera del modal
-    function AgregarUsuario() {
-
-        const titulo = document.querySelector("#titulo");
-        titulo.textContent = "Crear Nuevo Usuario";
-        const btnEditar = document.querySelector("#EditarRe");
-        btnEditar.style.display = 'none';
-        const btnAgregar = document.querySelector("#GuardarRe");
-        btnAgregar.style.display = 'block';
-    }
-
-    //Guardar un registro nuevo
-    function guardarRegistro(event) {
-        event.preventDefault();
-        const nombre = document.querySelector("#UsuNombre");
-        const apellidoP = document.querySelector("#UsuApellidoP");
-        const apellidoM = document.querySelector("#UsuApellidoM");
-        const edad = document.querySelector("#UsuEdad");
-        const select = document.querySelector("#form select");
-        
-
-        if (nombre.value === "" || apellidoP.value === "" || apellidoM.value === "" || edad.value === "" || select.value === "") {
-
-            mostrarAlerta("Todos los campos son obligatorios", "error");
-            return;
-        }
-
-        $.ajax({
-            type: "POST",
-            url: "/Agregar/CreateUser",
-            data: {
-                Nombre: nombre.value,
-                Apellido_Paterno: apellidoP.value,
-                Apellido_Materno: apellidoM.value,
-                Edad: edad.value,
-                isactive: select.value
-            },
-            success: function () {
-                limpiarHTML();
-                cargarDatos();
-
-                //console.log('Agregado');
-
-            }
-        });
-
-
-    }
-    //Edita registro 
+    //Edita registro
 
     function EditarRegistro(event) {
         event.preventDefault();
+
         const idIn = document.querySelector("#UsuId").value;
         const nombre = document.querySelector("#UsuNombre").value;
         const apellidoP = document.querySelector("#UsuApellidoP").value;
         const apellidoM = document.querySelector("#UsuApellidoM").value;
         const edad = document.querySelector("#UsuEdad").value;
         const select = document.querySelector("#form select").value;
-
 
         if (nombre === "" || apellidoP === "" || apellidoM === "" || edad === "" || select === "") {
 
@@ -231,10 +232,15 @@
                 isactive: select
             },
             success: function () {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Registro Editado Correctamente',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
                 limpiarHTML();
                 cargarDatos();
-
-
             }
         })
 
@@ -244,16 +250,35 @@
 
     //Elimina usuario de la BD
     function EliminarUsuario(usuId) {
-        $.ajax({
-            type: "POST",
-            url: "/Agregar/DeleteUser",
-            data: { "UserId": usuId },
-            success: function () {
-                limpiarHTML();
-                cargarDatos();
-            }
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success',
+                    $.ajax({
+                        type: "POST",
+                        url: "/Agregar/DeleteUser",
+                        data: { "UserId": usuId },
+                        success: function () {
+                            limpiarHTML();
+                            cargarDatos();
+                        }
 
+                    })
+                )
+            }
         })
+
+
     }
 
     //Muestra alerta de error
