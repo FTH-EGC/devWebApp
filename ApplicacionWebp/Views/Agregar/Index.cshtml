@@ -8,7 +8,7 @@
 
 <h1 class="text-center ">Usuarios</h1>
 
-<button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar" style="margin: 30px">Agregar</button>
+<button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>
 
 <div class="row">
     <div class="container">
@@ -27,48 +27,6 @@
                 </tbody>
             </table>
         </div>
-
-        <div class="modal fade" id="modalCrearEditar" role="dialog" style="margin-top: 65px">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2 class="text-center" id="titulo"></h2>
-                    </div>
-                    <div class="modal-body">
-
-                        <form role="form" id="form">
-
-                            <fieldset id="submitForm">
-                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId"})
-
-                                <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Nombre, new { @id = "UsuNombre", @class = "form-control", @placeholder = "Nombre del Usuario" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Apellido_Paterno, new { @id = "UsuApellidoP", @class = "form-control", @placeholder = "Apellido Paterno" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Apellido_Materno, new { @id = "UsuApellidoM", @class = "form-control", @placeholder = "Apellido Materno" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.TextBoxFor(m => m.Edad, new { @id = "UsuEdad", @class = "form-control", @placeholder = "Edad" })
-                                </div>
-                                <div class="form-group">
-                                    @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
-                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
-                                </div>
-                            </fieldset>
-                        </form>
-                        <button class="btn btn-danger btn-lg btn-block" onclick="resetearForm()" data-dismiss="modal">Cerrar&times;</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
 
     </div>
 </div>
@@ -100,7 +58,7 @@
                             <td>${da.Apellido_Materno}</td>
                             <td>${da.Edad}</td>
                             <td>${da.isactive}</td>
-                            <td><a class="btn btn-primary" onclick="EditarUsuario(${da.Id})" data-target="#modalCrearEditar" data-toggle="modal">Editar</a> </td>
+                            <td><a class="btn btn-primary" onclick="EditarUsuario(${da.Id})" >Editar</a> </td>
                             <td><a class="btn btn-danger" onclick="EliminarUsuario(${da.Id})">Eliminar</a> </td>
                         </tr>
                     `;
@@ -110,15 +68,46 @@
     }
 
     //Boton de agregar que esta fuera del modal
-    function AgregarUsuario() {
+    const btnAgregarF = document.querySelector("#agregar");
+    btnAgregarF.addEventListener("click", () => {
+        Swal.fire({
+            confirmButtonColor: "#c2240a",
+            confirmButtonText: "Cerrrar &times;",
+            html: `
+                        <h2 style="margin: 20px">Crear Usuario</h2>
+                        <p style="border-bottom: 1px solid #e5e5e5"></p>
+                        <form role="form" id="form" class="form-crear-edit">
 
-        const titulo = document.querySelector("#titulo");
-        titulo.textContent = "Crear Nuevo Usuario";
-        const btnEditar = document.querySelector("#EditarRe");
-        btnEditar.style.display = 'none';
-        const btnAgregar = document.querySelector("#GuardarRe");
-        btnAgregar.style.display = 'block';
-    }
+                            <fieldset id="submitForm">
+                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId"})
+
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Nombre, new { @id = "UsuNombre", @class = "form-control", @placeholder = "Nombre del Usuario" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Paterno, new { @id = "UsuApellidoP", @class = "form-control", @placeholder = "Apellido Paterno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Materno, new { @id = "UsuApellidoM", @class = "form-control", @placeholder = "Apellido Materno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Edad, new { @id = "UsuEdad", @class = "form-control", @placeholder = "Edad" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    `
+        });
+    });
+
+
+
 
     //Guardar un registro nuevo
     function guardarRegistro(event) {
@@ -167,14 +156,40 @@
 
     //Trae la informacion de la BD y la muestra en los inputs
     function EditarUsuario(userId) {
-        const titulo = document.querySelector("#titulo");
-        titulo.textContent = "Editar Usuario";
-        const btnAgregar = document.querySelector("#GuardarRe");
-        btnAgregar.style.display = 'none';
-        const btnEditar = document.querySelector("#EditarRe");
-        btnEditar.style.display = "block";
+            Swal.fire({
+            confirmButtonColor: "#c2240a",
+            confirmButtonText: "Cerrrar &times;",
+            html: `
+                        <h2 style="margin: 20px">Editar Usuario</h2>
+                        <p style="border-bottom: 1px solid #e5e5e5"></p>
+                        <form role="form" id="form" class="form-crear-edit">
 
+                            <fieldset id="submitForm">
+                                @Html.HiddenFor(m => m.Id, new { @id = "UsuId"})
 
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Nombre, new { @id = "UsuNombre", @class = "form-control", @placeholder = "Nombre del Usuario" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Paterno, new { @id = "UsuApellidoP", @class = "form-control", @placeholder = "Apellido Paterno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Materno, new { @id = "UsuApellidoM", @class = "form-control", @placeholder = "Apellido Materno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Edad, new { @id = "UsuEdad", @class = "form-control", @placeholder = "Edad" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
+
+                                </div>
+                            </fieldset>
+                        </form>
+                    `
+            });
         $.ajax({
             type: "POST",
             url: "/Agregar/GetUsuarioById",
@@ -214,6 +229,7 @@
         const apellidoM = document.querySelector("#UsuApellidoM").value;
         const edad = document.querySelector("#UsuEdad").value;
         const select = document.querySelector("#form select").value;
+
 
         if (nombre === "" || apellidoP === "" || apellidoM === "" || edad === "" || select === "") {
 

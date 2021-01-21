@@ -160,8 +160,6 @@ namespace ApplicacionWebp.DataAccess
                 cmd.Parameters.AddWithValue("@userId", objUsu.Id);
                 cmd.Parameters.AddWithValue("@Action", "UPDATE");
 
-
-
                 result =  cmd.ExecuteNonQuery().ToString();
 
                 return result;

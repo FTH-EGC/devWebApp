@@ -45,6 +45,7 @@ namespace ApplicacionWebp.Controllers
         public ActionResult CreateUser(ListTablaViewModel objUsu)
         {
 
+
             if (ModelState.IsValid)
             {
                 DataAccessLayout objDB = new DataAccessLayout();

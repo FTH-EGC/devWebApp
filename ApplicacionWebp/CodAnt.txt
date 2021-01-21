@@ -30,3 +30,102 @@
                         </form>
                         <button class="btn btn-danger btn-lg btn-block" onclick="resetearForm()" data-dismiss="modal">Cerrar&times;</button>
                     </div>
+
+
+
+
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
+
+
+
+
+
+
+
+
+
+
+            if (ModelState.IsValid)
+            {
+                DataAccessLayout objDB = new DataAccessLayout();
+                string result = objDB.INSERTDATA(objUsu);
+                TempData["userOBJ"] = result;
+                return RedirectToAction("index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error en la insercion de datos");
+                return View();
+            }
+
+
+
+    const btnModal = document.querySelector('#btnModal');
+    btnModal.addEventListener('click', function () {
+        Swal.fire({
+            confirmButtonColor: "#c2240a",
+            confirmButtonText: "Cerrrar &times;",
+            html: `
+                        <h2 style="margin: 20px">Crear Usuario</h2>
+                        <p style="border-bottom: 1px solid #e5e5e5"></p>
+                        <form role="form" id="form" class="form-crear-edit">
+
+                            <fieldset id="submitForm">
+                                @Html.HiddenFor(m => m.Id, new { @id = "usi"})
+
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Nombre, new { @id = "usn", @class = "form-control", @placeholder = "Nombre del Usuario" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Paterno, new { @id = "usap", @class = "form-control", @placeholder = "Apellido Paterno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Apellido_Materno, new { @id = "usapm", @class = "form-control", @placeholder = "Apellido Materno" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Edad, new { @id = "used", @class = "form-control", @placeholder = "Edad" })
+                                </div>
+                                <div class="form-group">
+                                    @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
+                                </div>
+                            </fieldset>
+                        </form>
+                    `
+        })
+    });
+
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url: "/Agregar/GetUsuarioById",
+            data: { 'UserId': userId },
+            success: function (oData) {
+
+                //console.log(oData);
+                const idInput = document.querySelector("#UsuId");
+                const nombre = document.querySelector("#UsuNombre");
+                const apellidoP = document.querySelector("#UsuApellidoP");
+                const apellidoM = document.querySelector("#UsuApellidoM");
+                const edad = document.querySelector("#UsuEdad");
+                const select = document.querySelector("#form select");
+
+                idInput.value = oData.Id;
+                nombre.value = oData.Nombre;
+                apellidoP.value = oData.Apellido_Paterno;
+                apellidoM.value = oData.Apellido_Materno;
+                edad.value = oData.Edad;
+                select.value = oData.isactive;
+
+                //console.log(btnEdit);
+
+            }
+        })
+
+
