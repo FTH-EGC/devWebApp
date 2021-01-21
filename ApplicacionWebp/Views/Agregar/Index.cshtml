@@ -59,12 +59,12 @@
                                     @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event, id)" value="Editar" id="EditarRe" />
                                     <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
                                 </div>
                             </fieldset>
                         </form>
-                        <button class="btn btn-danger btn-lg btn-block" data-dismiss="modal">Cerrar&times;</button>
+                        <button class="btn btn-danger btn-lg btn-block" onclick="resetearForm()" data-dismiss="modal">Cerrar&times;</button>
                     </div>
                 </div>
             </div>
@@ -140,12 +140,14 @@
                 const edad = document.querySelector("#UsuEdad");
                 const select = document.querySelector("#form select");
 
-                idInput.value = oData.id;
+                idInput.value = oData.Id;
                 nombre.value = oData.Nombre;
                 apellidoP.value = oData.Apellido_Paterno;
                 apellidoM.value = oData.Apellido_Materno;
                 edad.value = oData.Edad;
                 select.value = oData.isactive;
+
+                //console.log(oData.Id);
 
             }
         })
@@ -190,16 +192,52 @@
                 isactive: select.value
             },
             success: function () {
-                const dataTable = document.querySelector("#GetData");
-                while (dataTable.firstChild) {
-                    dataTable.removeChild(dataTable.firstChild);
-                }
+                limpiarHTML();
                 cargarDatos();
 
-                console.log('Agregado');
+                //console.log('Agregado');
 
             }
         });
+
+
+    }
+    //Edita registro 
+
+    function EditarRegistro(event) {
+        event.preventDefault();
+        const idIn = document.querySelector("#UsuId").value;
+        const nombre = document.querySelector("#UsuNombre").value;
+        const apellidoP = document.querySelector("#UsuApellidoP").value;
+        const apellidoM = document.querySelector("#UsuApellidoM").value;
+        const edad = document.querySelector("#UsuEdad").value;
+        const select = document.querySelector("#form select").value;
+
+
+        if (nombre === "" || apellidoP === "" || apellidoM === "" || edad === "" || select === "") {
+
+            mostrarAlerta("Todos los campos son obligatorios", "error");
+            return;
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Agregar/UpdateUser",
+            data: {
+                Id: idIn,
+                Nombre: nombre,
+                Apellido_Paterno: apellidoP,
+                Apellido_Materno: apellidoM,
+                Edad: edad,
+                isactive: select
+            },
+            success: function () {
+                limpiarHTML();
+                cargarDatos();
+
+
+            }
+        })
+
 
 
     }
@@ -211,17 +249,14 @@
             url: "/Agregar/DeleteUser",
             data: { "UserId": usuId },
             success: function () {
-                const dataTable = document.querySelector("#GetData");
-                while (dataTable.firstChild) {
-                    dataTable.removeChild(dataTable.firstChild);
-                }
+                limpiarHTML();
                 cargarDatos();
             }
 
         })
-
     }
 
+    //Muestra alerta de error
     function mostrarAlerta(mensaje, tipo) {
         const alerta = document.querySelector('.alerta');
 
@@ -247,6 +282,14 @@
 
     }
 
+    //Limpia el HTML previo
+    function limpiarHTML() {
+        const dataTable = document.querySelector("#GetData");
+        while (dataTable.firstChild) {
+            dataTable.removeChild(dataTable.firstChild);
+        }
+
+    }
 
 
 </script>

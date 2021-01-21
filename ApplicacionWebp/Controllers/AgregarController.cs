@@ -59,6 +59,23 @@ namespace ApplicacionWebp.Controllers
             }
         }
 
+        public ActionResult UpdateUser(ListTablaViewModel objUsu) {
+
+            if (ModelState.IsValid)
+            {
+                DataAccessLayout objDB = new DataAccessLayout();
+                string result = objDB.UPDATEDATA(objUsu);
+                TempData["userOBJ"] = result;
+                return RedirectToAction("index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error en la insercion de datos");
+                return View();
+            }
+
+        }
+
 
         public ActionResult DeleteUser(int UserId)
         {

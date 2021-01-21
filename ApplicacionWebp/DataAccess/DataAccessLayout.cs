@@ -141,6 +141,40 @@ namespace ApplicacionWebp.DataAccess
 
         }
 
+        public string UPDATEDATA(ListTablaViewModel objUsu)
+        {
+            SqlConnection con = null;
+            string result = "";
+
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ToString());
+                SqlCommand cmd = new SqlCommand("sp_Admin", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@nombre", objUsu.Nombre);
+                cmd.Parameters.AddWithValue("@apellido_paterno", objUsu.Apellido_Paterno);
+                cmd.Parameters.AddWithValue("@apellido_materno", objUsu.Apellido_Materno);
+                cmd.Parameters.AddWithValue("@edad", objUsu.Edad);
+                cmd.Parameters.AddWithValue("@isactve", objUsu.isactive);
+                cmd.Parameters.AddWithValue("@userId", objUsu.Id);
+                cmd.Parameters.AddWithValue("@Action", "UPDATE");
+
+                result =  cmd.ExecuteNonQuery().ToString();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+            }
+
+        }
+
 
         public int DELETE(int idUs)
         {
