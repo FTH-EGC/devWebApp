@@ -8,6 +8,9 @@
 
 <h1 class="text-center ">Usuarios</h1>
 
+<button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar" style="margin: 30px">Agregar</button>
+
+
 <div class="row">
     <div class="container">
         <div class="container">
@@ -26,9 +29,6 @@
                 </tbody>
             </table>
         </div>
-
-
-        <button class="btn btn-success" onclick="AgregarUsuario()" data-target="#modalCrearEditar" data-toggle="modal" id="agregar">Agregar</button>
 
         <div class="modal fade" id="modalCrearEditar" role="dialog" style="margin-top: 65px">
             <div class="modal-dialog">
@@ -59,8 +59,8 @@
                                     @Html.EditorFor(m => m.isactive, new { htmlAttributes = new { @class = "form-control" } })
                                 </div>
                                 <div class="form-group">
-                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(e)" value="Editar" id="EditarRe" />
-                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(e)" value="Guardar" id="GuardarRe" />
+                                    <input type="submit" class="btn btn-primary" onclick="EditarRegistro(event)" value="Editar" id="EditarRe" />
+                                    <input type="submit" class="btn btn-success" onclick="guardarRegistro(event)" value="Guardar" id="GuardarRe" />
                                 </div>
                             </fieldset>
                         </form>
@@ -107,7 +107,7 @@
                             <td><a class="btn btn-danger" onclick="EliminarUsuario(${da.Id})">Eliminar</a> </td>
                         </tr>
                     `;
-                })
+                });
             }
         })
     }
@@ -121,9 +121,10 @@
         titulo.textContent = "Editar Usuario";
         const btnAgregar = document.querySelector("#GuardarRe");
         btnAgregar.style.display = 'none';
+        const btnEditar = document.querySelector("#EditarRe");
+        btnEditar.style.display = "block";
 
-
-        console.log(userId);
+        //console.log(userId);
 
         $.ajax({
             type: "POST",
@@ -131,7 +132,7 @@
             data: { 'UserId': userId },
             success: function (oData) {
 
-                console.log(oData);
+                //console.log(oData);
                 const idInput = document.querySelector("#UsuId");
                 const nombre = document.querySelector("#UsuNombre");
                 const apellidoP = document.querySelector("#UsuApellidoP");
@@ -156,18 +157,21 @@
 
         const titulo = document.querySelector("#titulo");
         titulo.textContent = "Crear Nuevo Usuario";
-        const btnAgregar = document.querySelector("#EditarRe");
-        btnAgregar.style.display = 'none';
-    } 
+        const btnEditar = document.querySelector("#EditarRe");
+        btnEditar.style.display = 'none';
+        const btnAgregar = document.querySelector("#GuardarRe");
+        btnAgregar.style.display = 'block';
+    }
 
     //Guardar un registro nuevo
-    function guardarRegistro(e) {
-        e.preventDefault();
+    function guardarRegistro(event) {
+        event.preventDefault();
         const nombre = document.querySelector("#UsuNombre");
         const apellidoP = document.querySelector("#UsuApellidoP");
         const apellidoM = document.querySelector("#UsuApellidoM");
         const edad = document.querySelector("#UsuEdad");
         const select = document.querySelector("#form select");
+        
 
         if (nombre.value === "" || apellidoP.value === "" || apellidoM.value === "" || edad.value === "" || select.value === "") {
 
@@ -175,22 +179,46 @@
             return;
         }
 
+        $.ajax({
+            type: "POST",
+            url: "/Agregar/CreateUser",
+            data: {
+                Nombre: nombre.value,
+                Apellido_Paterno: apellidoP.value,
+                Apellido_Materno: apellidoM.value,
+                Edad: edad.value,
+                isactive: select.value
+            },
+            success: function () {
+                const dataTable = document.querySelector("#GetData");
+                while (dataTable.firstChild) {
+                    dataTable.removeChild(dataTable.firstChild);
+                }
+                cargarDatos();
 
-        
+                console.log('Agregado');
+
+            }
+        });
+
+
     }
 
     //Elimina usuario de la BD
     function EliminarUsuario(usuId) {
-            $.ajax({
-                type: "POST",
-                url: "/Agregar/DeleteUser",
-                data: { "UserId": usuId },
-                success: function () {
-                    console.log("Eiminado");
-                    console.log(usuId);
+        $.ajax({
+            type: "POST",
+            url: "/Agregar/DeleteUser",
+            data: { "UserId": usuId },
+            success: function () {
+                const dataTable = document.querySelector("#GetData");
+                while (dataTable.firstChild) {
+                    dataTable.removeChild(dataTable.firstChild);
                 }
+                cargarDatos();
+            }
 
-            })
+        })
 
     }
 

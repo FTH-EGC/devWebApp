@@ -108,29 +108,25 @@ namespace ApplicacionWebp.DataAccess
 
 
         }
-        public string  UpdateUser(ListTablaViewModel usuObj)
+
+        public string INSERTDATA(ListTablaViewModel objUsu)
         {
             SqlConnection con = null;
-            DataSet ds = null;
-
+            string result = "";
             try
             {
-                string result = "";
-                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ToString());
-
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["myConnectionString"].ToString()) ;
                 SqlCommand cmd = new SqlCommand("sp_Admin", con);
                 con.Open();
                 cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "CREATE");
+                cmd.Parameters.AddWithValue("@nombre", objUsu.Nombre);
+                cmd.Parameters.AddWithValue("@apellido_paterno", objUsu.Apellido_Paterno);
+                cmd.Parameters.AddWithValue("@apellido_materno", objUsu.Apellido_Materno);
+                cmd.Parameters.AddWithValue("@edad", objUsu.Edad);
+                cmd.Parameters.AddWithValue("@isactve", objUsu.isactive);
+                result = cmd.ExecuteNonQuery().ToString();
 
-                cmd.Parameters.AddWithValue("@Action", "UPDATE");
-                cmd.Parameters.AddWithValue("@userId", usuObj.Id);
-                cmd.Parameters.AddWithValue("@nombre", usuObj.Nombre);
-                cmd.Parameters.AddWithValue("@apellido_paterno", usuObj.Apellido_Paterno);
-                cmd.Parameters.AddWithValue("@apellido_materno", usuObj.Apellido_Materno);
-                cmd.Parameters.AddWithValue("@edad", usuObj.Edad);
-                cmd.Parameters.AddWithValue("@isactve", usuObj.isactive);
-
-                result = cmd.ExecuteScalar().ToString();
                 return result;
             }
             catch (Exception ex)
@@ -144,6 +140,7 @@ namespace ApplicacionWebp.DataAccess
 
 
         }
+
 
         public int DELETE(int idUs)
         {
