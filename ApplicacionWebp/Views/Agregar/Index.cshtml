@@ -6,6 +6,7 @@
 <script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
+
 <h1 class="text-center ">Usuarios</h1>
 
 <button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>
@@ -159,10 +160,11 @@
             Swal.fire({
             confirmButtonColor: "#c2240a",
             confirmButtonText: "Cerrrar &times;",
+            customClass: 'btn-block',
             html: `
                         <h2 style="margin: 20px">Editar Usuario</h2>
                         <p style="border-bottom: 1px solid #e5e5e5"></p>
-                        <form role="form" id="form" class="form-crear-edit">
+                        <form role="form" id="form" class="form-crear-edit" style="width: 100%">
 
                             <fieldset id="submitForm">
                                 @Html.HiddenFor(m => m.Id, new { @id = "UsuId"})
@@ -267,17 +269,17 @@
     //Elimina usuario de la BD
     function EliminarUsuario(usuId) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: 'Estas seguro de eiminar este registro?',
+            text: "",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: 'Si, Eliminar!'
         }).then((result) => {
             if (result.isConfirmed) {
                 Swal.fire(
-                    'Deleted!',
+                    'Eliminado!',
                     'Your file has been deleted.',
                     'success',
                     $.ajax({
@@ -332,3 +334,9 @@
 
 
 </script>
+
+
+<style>
+
+
+</style>
