@@ -33,6 +33,9 @@
             <div id="dxDatos">
 
             </div>
+            <div id="dxTablaDatos">
+
+            </div>
         </div>
 
 
@@ -44,56 +47,148 @@
 
     $(function () {
 
-        var URL = "/Agregar/";
         var orderStore = new DevExpress.data.CustomStore({
-           
-        })
-    })
-
-
-    $("#dxDatos").dxDataGrid({
-        dataSource: "/Agregar/GetInfo",
-        columns: [
-            { dataField: "Nombre" },
-            { dataField: "Apellido_Paterno" },
-            { dataField: "Apellido_Materno" },
-            { dataField: "Edad" },
-            { dataField: "isactive" }
-
-        ],
-        columnAutoWidth: true,
-        allowColumnReordering: true,
-        allowColumnResizing: true,
-        searchPanel: {
-            visible: true,
-            highlightCaseSensitive: true
-        },
-        showBorders: true,
-        editing: {
-            mode: "popup",
-            allowUpdating: true,
-            allowAdding: true,
-            allowDeleting: true,
-            popup: {
-                title: "Usuario",
-                showTitle: true,
-                width: 500,
-                height: 400
+            key: "Id",
+            load: function () {
+                return $.getJSON("/Agregar/GetInfo");
             },
-            form: {
-                items: [{
-                    itemType: "group",
-                    colCount: 1,
-                    colSpan: 2,
-                    items: ["Nombre", "Apellido_Paterno", "Apellido_Materno", "Edad", "isactive"]
-                }]
+            insert: function (values) {
+                    var data = values;
+                    console.log(data);
+                    $.ajax({
+                        type: "POST",
+                        url: "/Agregar/CreateUser",
+                        data: data,
+                        success: function () {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Registro Guardado Correctamente',
+                                showConfirmButton: false,
+                                timer: 1500
+                            })
+
+                            //console.log('Agregado');
+
+                        }
+                    });
+            },
+            remove: function (key) {
+
+            } 
+
+        });
+
+        var dataGrid = $("#dxDatos").dxDataGrid({
+            dataSource: orderStore,
+            bidingOptions: {
+                "editing.refreshMode": "refreshMode"
+            },
+            columns: [
+                { dataField: "Nombre" },
+                { dataField: "Apellido_Paterno" },
+                { dataField: "Apellido_Materno" },
+                { dataField: "Edad" },
+                { dataField: "isactive" }
+
+            ],
+            columnAutoWidth: true,
+            allowColumnReordering: true,
+            allowColumnResizing: true,
+            searchPanel: {
+                visible: true,
+                highlightCaseSensitive: true
+            },
+            showBorders: true,
+            editing: {
+                mode: "popup",
+                allowUpdating: true,
+                allowAdding: true,
+                allowDeleting: true,
+                confirmDelete: false,
+                popup: {
+                    title: "Usuario",
+                    showTitle: true,
+                    width: 500,
+                    height: 400
+                },
+                form: {
+                    items: [{
+                        itemType: "group",
+                        colCount: 1,
+                        colSpan: 2,
+                        items: ["Nombre", "Apellido_Paterno", "Apellido_Materno", "Edad", "isactive"]
+                    }]
+
+                },
+                texts: {
+                    saveRowChanges: "save"
+                }
+
+
 
             }
+        }).dxDataGrid("instance");
 
-            
 
-        }
+
+
+
+        //var dataGrid = $("#dxTablaDatos").dxDataGrid({
+        //    dataSource: orderStore,
+        //    repaintChangesOnly: true,
+        //    showBorders: true,
+        //    editing: {
+        //        allowAdding: true,
+        //        allowUpdating: true,
+        //        allowDeleting: true
+        //    },
+        //    scrolling: {
+        //        mode: "virtual"
+        //    },
+        //    columns: [
+        //        lookp: {
+        //            dataSource: {
+
+        //            }
+        //        }
+        //    ]
+
+        //}).dxDataGrid("instance");
+
+        //function sendRequest(url, method, data) {
+        //    var d = $.Deferred();
+
+        //    method = method || "GET";
+
+        //    logRequest(method, url, data);
+
+        //    $.ajax(url, {
+        //        method: method || "GET",
+        //        data: data,
+        //        cache: false,
+        //        xhrFields: { withCredentials: true }
+        //    }).done(function (result) {
+        //        d.resolve(method === "GET" ? result.data : result);
+        //    }).fail(function (xhr) {
+        //        d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
+        //    });
+
+        //    return d.promise();
+        //}
+
+        //function logRequest(method, url, data) {
+        //    var args = Object.keys(data || {}).map(function (key) {
+        //        return key + "=" + data[key];
+
+        //    }).join(" ");
+
+
+        //}
+
     })
+
+
 
 
     //Resetear formulario
