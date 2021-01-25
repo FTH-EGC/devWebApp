@@ -3,7 +3,6 @@
     ViewBag.Title = "Index";
 }
 
-<script src="~/Scripts/jquery-3.4.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
@@ -11,7 +10,7 @@
 
 <button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>
 
-<div class="row">
+
     <div class="container">
         <div class="container">
             <table class="table">
@@ -29,11 +28,72 @@
             </table>
         </div>
 
-    </div>
-</div>
 
+        <div class="dx-viewport">
+            <div id="dxDatos">
+
+            </div>
+        </div>
+
+
+    </div>
+
+    
 
 <script>
+
+    $(function () {
+
+        var URL = "/Agregar/";
+        var orderStore = new DevExpress.data.CustomStore({
+           
+        })
+    })
+
+
+    $("#dxDatos").dxDataGrid({
+        dataSource: "/Agregar/GetInfo",
+        columns: [
+            { dataField: "Nombre" },
+            { dataField: "Apellido_Paterno" },
+            { dataField: "Apellido_Materno" },
+            { dataField: "Edad" },
+            { dataField: "isactive" }
+
+        ],
+        columnAutoWidth: true,
+        allowColumnReordering: true,
+        allowColumnResizing: true,
+        searchPanel: {
+            visible: true,
+            highlightCaseSensitive: true
+        },
+        showBorders: true,
+        editing: {
+            mode: "popup",
+            allowUpdating: true,
+            allowAdding: true,
+            allowDeleting: true,
+            popup: {
+                title: "Usuario",
+                showTitle: true,
+                width: 500,
+                height: 400
+            },
+            form: {
+                items: [{
+                    itemType: "group",
+                    colCount: 1,
+                    colSpan: 2,
+                    items: ["Nombre", "Apellido_Paterno", "Apellido_Materno", "Edad", "isactive"]
+                }]
+
+            }
+
+            
+
+        }
+    })
 
 
     //Resetear formulario
