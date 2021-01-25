@@ -60,7 +60,8 @@ namespace ApplicacionWebp.Controllers
             }
         }
 
-        public ActionResult UpdateUser(ListTablaViewModel objUsu) {
+        public ActionResult UpdateUser(ListTablaViewModel objUsu) 
+        {
 
             if (ModelState.IsValid)
             {

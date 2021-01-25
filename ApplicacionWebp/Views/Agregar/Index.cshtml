@@ -33,9 +33,6 @@
             <div id="dxDatos">
 
             </div>
-            <div id="dxTablaDatos">
-
-            </div>
         </div>
 
 
@@ -48,13 +45,12 @@
     $(function () {
 
         var orderStore = new DevExpress.data.CustomStore({
-            key: "Id",
             load: function () {
                 return $.getJSON("/Agregar/GetInfo");
             },
             insert: function (values) {
                     var data = values;
-                    console.log(data);
+                    //console.log(data);
                     $.ajax({
                         type: "POST",
                         url: "/Agregar/CreateUser",
@@ -73,17 +69,48 @@
                         }
                     });
             },
-            remove: function (key) {
+            update: function (key,values) {
 
+
+                const datosAct = { ...key, ...values };
+                //console.log(datosAct);
+                console.log(datosAct);
+                $.ajax({
+                    type: "POST",
+                    url: "/Agregar/UpdateUser",
+                    data: datosAct,
+                    success: function () {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Registro Editado Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
+
+                        });
+                        //console.log(values);
+                    }
+                });
+
+
+            },
+            remove: function (key) {
+                $.ajax({
+                    type: "POST",
+                    url: "/Agregar/DeleteUser",
+                    data: { "UserId": key.Id },
+                    success: function () {
+
+                    }
+
+                })
             } 
 
         });
 
-        var dataGrid = $("#dxDatos").dxDataGrid({
+        $("#dxDatos").dxDataGrid({
             dataSource: orderStore,
-            bidingOptions: {
-                "editing.refreshMode": "refreshMode"
-            },
+            repaintChangesOnly: true,
             columns: [
                 { dataField: "Nombre" },
                 { dataField: "Apellido_Paterno" },
@@ -101,11 +128,12 @@
             },
             showBorders: true,
             editing: {
+                refreshMode: "reshape",
                 mode: "popup",
                 allowUpdating: true,
                 allowAdding: true,
                 allowDeleting: true,
-                confirmDelete: false,
+                confirmDelete: true,
                 popup: {
                     title: "Usuario",
                     showTitle: true,
@@ -121,70 +149,12 @@
                     }]
 
                 },
-                texts: {
-                    saveRowChanges: "save"
-                }
+
 
 
 
             }
         }).dxDataGrid("instance");
-
-
-
-
-
-        //var dataGrid = $("#dxTablaDatos").dxDataGrid({
-        //    dataSource: orderStore,
-        //    repaintChangesOnly: true,
-        //    showBorders: true,
-        //    editing: {
-        //        allowAdding: true,
-        //        allowUpdating: true,
-        //        allowDeleting: true
-        //    },
-        //    scrolling: {
-        //        mode: "virtual"
-        //    },
-        //    columns: [
-        //        lookp: {
-        //            dataSource: {
-
-        //            }
-        //        }
-        //    ]
-
-        //}).dxDataGrid("instance");
-
-        //function sendRequest(url, method, data) {
-        //    var d = $.Deferred();
-
-        //    method = method || "GET";
-
-        //    logRequest(method, url, data);
-
-        //    $.ajax(url, {
-        //        method: method || "GET",
-        //        data: data,
-        //        cache: false,
-        //        xhrFields: { withCredentials: true }
-        //    }).done(function (result) {
-        //        d.resolve(method === "GET" ? result.data : result);
-        //    }).fail(function (xhr) {
-        //        d.reject(xhr.responseJSON ? xhr.responseJSON.Message : xhr.statusText);
-        //    });
-
-        //    return d.promise();
-        //}
-
-        //function logRequest(method, url, data) {
-        //    var args = Object.keys(data || {}).map(function (key) {
-        //        return key + "=" + data[key];
-
-        //    }).join(" ");
-
-
-        //}
 
     })
 
