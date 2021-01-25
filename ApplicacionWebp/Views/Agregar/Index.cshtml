@@ -145,7 +145,49 @@
                         itemType: "group",
                         colCount: 1,
                         colSpan: 2,
-                        items: ["Nombre", "Apellido_Paterno", "Apellido_Materno", "Edad", "isactive"]
+                        items: [
+
+                            {
+                                dataField: "Nombre",
+                                validationRules: [
+                                    {
+                                        type: "required",
+                                        message: "El Nombre es obligatorio"
+                                    }
+                                ]
+                            },
+                            {
+                                dataField: "Apellido_Paterno",
+                                validationRules: [
+                                    {
+                                        type: "required",
+                                        message: "El Apellido Paterno es obligatorio"
+                                    }
+                                ]
+                            },
+                            {
+                                dataField: "Apellido_Materno",
+                                validationRules: [
+                                    {
+                                        type: "required",
+                                        message: "El Apellido Materno es obligatorio"
+                                    }
+                                ]
+                            },
+                            {
+                                dataField: "Edad",
+                                validationRules: [
+                                    {
+                                        type: "required",
+                                        message: "La edad es obligatoria"
+                                    }
+                                ]
+                            },
+                            {
+                                dataField: "isactive"
+
+                            }
+                        ]
                     }]
 
                 },
