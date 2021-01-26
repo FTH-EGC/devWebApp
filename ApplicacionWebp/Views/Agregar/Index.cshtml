@@ -98,7 +98,14 @@
                     url: "/Agregar/DeleteUser",
                     data: { "UserId": key.Id },
                     success: function () {
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'success',
+                            title: 'Registro Eliminado Correctamente',
+                            showConfirmButton: false,
+                            timer: 1500
 
+                        });
                     }
 
                 })
@@ -110,6 +117,7 @@
             dataSource: orderStore,
             repaintChangesOnly: true,
             filterRow: { visible: true },
+            headerFilter: { visible: true },
             columns: [
                 { dataField: "Nombre" },
                 { dataField: "Apellido_Paterno" },
@@ -133,6 +141,7 @@
                 allowAdding: true,
                 allowDeleting: true,
                 confirmDelete: true,
+                useIcons: true,
                 popup: {
                     title: "Usuario",
                     showTitle: true,
@@ -154,6 +163,7 @@
                                         message: "El Nombre es obligatorio"
                                     }
                                 ]
+
                             },
                             {
                                 dataField: "Apellido_Paterno",
@@ -235,7 +245,7 @@
     }
 
     //Boton de agregar que esta fuera del modal
-    const btnAgregarF = document.querySelector("#agregar");
+    @*const btnAgregarF = document.querySelector("#agregar");
     btnAgregarF.addEventListener("click", () => {
         Swal.fire({
             confirmButtonColor: "#c2240a",
@@ -270,7 +280,7 @@
                         </form>
                     `
         });
-    });
+    });*@
 
 
 
@@ -502,27 +512,3 @@
 </script>
 
 
-<style>
-
-    .dx-link {
-        padding: .7rem 1.5rem !important;
-        text-decoration: none !important;
-        color: #fff !important;
-        transition: all .3s ease-in-out;
-        border-radius: 5px;
-    }
-
-    .dx-link-edit {
-        background-color: #fcba03!important;
-
-    }
-    .dx-link-edit:hover {
-            background-color: #ffaf03!important;
-    }
-    .dx-link-delete {
-        background-color: #d40241 !important;
-    }
-    .dx-link-delete:hover {
-            background-color: #ad0034!important;
-    }
-</style>
