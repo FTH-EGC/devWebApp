@@ -8,12 +8,12 @@
 
 <h1 class="text-center ">Usuarios</h1>
 
-<button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>
+@*<button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>*@
 
 
     <div class="container">
-        <div class="container">
-            <table class="table">
+
+            @*<table class="table">
                 <tr>
                     <th>Nombre</th>
                     <th>Apellido Paterno</th>
@@ -25,9 +25,7 @@
                 </tr>
                 <tbody id="GetData">
                 </tbody>
-            </table>
-        </div>
-
+            </table>*@
 
         <div class="dx-viewport">
             <div id="dxDatos">
@@ -111,6 +109,7 @@
         $("#dxDatos").dxDataGrid({
             dataSource: orderStore,
             repaintChangesOnly: true,
+            filterRow: { visible: true },
             columns: [
                 { dataField: "Nombre" },
                 { dataField: "Apellido_Paterno" },
@@ -208,7 +207,7 @@
         $("#form")[0].reset();
     }
     //Crea los datos y Muestra la tabla
-    cargarDatos();
+    //cargarDatos();
     function cargarDatos() {
         $.ajax({
             type: "GET",
@@ -517,13 +516,13 @@
         background-color: #fcba03!important;
 
     }
-        .dx-link-edit:hover {
+    .dx-link-edit:hover {
             background-color: #ffaf03!important;
-        }
+    }
     .dx-link-delete {
         background-color: #d40241 !important;
     }
-        .dx-link-delete:hover {
+    .dx-link-delete:hover {
             background-color: #ad0034!important;
-        }
+    }
 </style>
