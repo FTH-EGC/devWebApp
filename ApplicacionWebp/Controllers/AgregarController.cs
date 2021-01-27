@@ -7,7 +7,8 @@ using ApplicacionWebp.Models.ViewModels;
 using ApplicacionWebp.Models;
 using Newtonsoft.Json;
 using ApplicacionWebp.DataAccess;
-
+using CrystalDecisions.CrystalReports.Engine;
+using System.IO;
 
 namespace ApplicacionWebp.Controllers
 {
@@ -31,6 +32,31 @@ namespace ApplicacionWebp.Controllers
             DataAccessLayout objDB = new DataAccessLayout();
 
             return Json(objDB.GetData(), JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult generarReporte()
+        {
+            DataAccessLayout objDB = new DataAccessLayout();
+            ReportDocument rd = new ReportDocument();
+            rd.Load(Path.Combine(Server.MapPath("~/Reports"), "CrystalReport2.rpt"));
+            rd.SetDataSource(objDB.GetData().ToList());
+            Response.Buffer = false;
+            Response.ClearContent();
+            Response.ClearHeaders();
+
+            try
+            {
+
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+                return File(stream, "application/pdf", "Lista_Usuarios.pdf");
+            }catch(Exception ex)
+            {
+                throw ex;
+
+            }
+
+
         }
 
 

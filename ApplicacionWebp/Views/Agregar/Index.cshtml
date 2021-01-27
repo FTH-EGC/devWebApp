@@ -6,7 +6,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 
-<h1 class="text-center ">Usuarios</h1>
+<h1 class="text-center" style="margin: 3rem">Usuarios</h1>
 
 @*<button class="btn btn-success" id="agregar" style="margin: 30px">Agregar</button>*@
 
@@ -26,6 +26,9 @@
                 <tbody id="GetData">
                 </tbody>
             </table>*@
+
+        <a class="btn btn-info" style="margin: 2rem 0;" href="@Url.Action("generarReporte")">Generar Reporte</a>
+
 
         <div class="dx-viewport">
             <div id="dxDatos">
@@ -199,15 +202,13 @@
                         ]
                     }]
 
-                },
-
-
-
-
+                }
             }
         }).dxDataGrid("instance");
 
     })
+
+
 
 
 
