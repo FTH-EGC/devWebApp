@@ -1,0 +1,52 @@
+select * from Facturacion_Solicitud 
+
+select * from facturacion_solicitud_detalle
+
+select * from maestro_editoriales
+
+select * from Maestro_Servicios
+select * from Maestro_Servicios_Unidad
+
+SELECT
+	a.Creation_Timestamp
+	,b.Nombre
+	,c.Id
+	,c.titulo
+	,c.Programa_Circulacion_CompletoITEM 
+	,c.Cantidad_Solicitada_Solicitante
+	,c.Cantidad_Solicitada_Confirmada
+	,c.Cantidad_Ejecutada
+	,c.Concepto_A_Facturar
+	,c.Concepto_De_Facturacion
+	,c.Costo_Unidad_Confirmada
+	,c.Importe_Antes_IVA
+	,d.Servicio 
+	,d.CostoUnitario_SinIVA
+	,c.Costo_Unidad_Solicitante
+	,d.Item_Facturacion
+	,e.Unidad
+	, case when d.CostoUnitario_SinIVA is null
+	then c.Costo_Unidad_Solicitante
+	end Costo_Unitario
+FROM Facturacion_Solicitud a
+
+	LEFT OUTER JOIN Maestro_Editoriales b
+	ON a.Maestro_EditorialesId=b.Id
+
+	LEFT OUTER JOIN Facturacion_Solicitud_Detalle c
+	ON c.Facturacion_SolicitudId = a.Id
+
+	LEFT OUTER JOIN Maestro_Servicios d
+	ON c.Maestro_ServiciosId=d.Id
+
+	LEFT OUTER JOIN Maestro_Servicios_Unidad e
+	ON c.Maestro_Servicios_UnidadId=e.Id
+
+where 1 = 1
+	--and a.Id = @UserId 
+order by c.Programa_Circulacion_CompletoITEM desc
+
+select * from Facturacion_Solicitud_Detalle
+where 1 = 1
+and Facturacion_SolicitudId = 769
+

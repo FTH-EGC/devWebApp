@@ -134,8 +134,16 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AgregarController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ReportesController.cs" />
     <Compile Include="Controllers\tbl_datosController.cs" />
     <Compile Include="DataAccess\DataAccessLayout.cs" />
+    <Compile Include="DataAccess\ReportesData.cs" />
+    <Compile Include="DataAccess\SqlSP.cs" />
+    <Compile Include="DataReporte.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataReporte.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -162,18 +170,19 @@
     <Compile Include="Models\tbl_datos.cs">
       <DependentUpon>DB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ViewModels\Facturacion_Solicitud_Detalle.cs" />
     <Compile Include="Models\ViewModels\ListTablaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reports\CrystalReport.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CrystalReport.rpt</DependentUpon>
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Reports\CrystalReport2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CrystalReport2.rpt</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\CrystalReport5.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CrystalReport5.rpt</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Reports\Reporte.aspx.cs">
@@ -182,6 +191,12 @@
     </Compile>
     <Compile Include="Reports\Reporte.aspx.designer.cs">
       <DependentUpon>Reporte.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Solicitud_Servicio.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Solicitud_Servicio.rpt</DependentUpon>
+      <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -215,6 +230,17 @@
     </Content>
     <Content Include="DataSet1.xsc">
       <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Content>
+    <Content Include="DataReporte.xsc">
+      <DependentUpon>DataReporte.xsd</DependentUpon>
+    </Content>
+    <None Include="DataReporte.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataReporte.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="DataReporte.xss">
+      <DependentUpon>DataReporte.xsd</DependentUpon>
     </Content>
     <None Include="DataSet1.xsd">
       <SubType>Designer</SubType>
@@ -258,6 +284,7 @@
     <Content Include="Views\Agregar\Index.cshtml" />
     <Content Include="Views\Shared\Table.cshtml" />
     <Content Include="Views\Agregar\Tablas.cshtml" />
+    <Content Include="Views\Reportes\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -281,13 +308,17 @@
     <Service Include="{C0C07587-41A7-46C8-8FBD-3F9C8EBE2DDC}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Reports\CrystalReport.rpt">
-      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>CrystalReport.cs</LastGenOutput>
-    </EmbeddedResource>
     <EmbeddedResource Include="Reports\CrystalReport2.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
       <LastGenOutput>CrystalReport2.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\CrystalReport5.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>CrystalReport5.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Solicitud_Servicio.rpt">
+      <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
+      <LastGenOutput>Solicitud_Servicio.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

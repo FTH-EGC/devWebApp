@@ -1,0 +1,129 @@
+        public ActionResult Export_Solicitud_Servicio()
+        {
+
+            List<Facturacion_Solicitud_Detalle> facturacion_Solicitud_Detalle = new List<Facturacion_Solicitud_Detalle>();
+
+            facturacion_Solicitud_Detalle = db.Facturacion_Solicitud_Detalle.Where(x => x.Facturacion_SolicitudId == SolicitudID).ToList();
+
+            ReportDocument rd = new ReportDocument();
+
+            if (rptPath == "0")
+            {
+                rd.Load(Path.Combine(Server.MapPath("~/Reports/Solicitud_Servicio.rpt")));
+            }
+            else if (rptPath == "1")
+            {
+                rd.Load(pathOrdenRecoleccion + "Solicitud_De_Servicio.rpt"); //Servidor
+            }
+
+            rd.SetDataSource(facturacion_Solicitud_Detalle.Select(p => new
+            {
+
+                Solicitud = p.Facturacion_SolicitudId.ToString(),
+                Item = p.Programa_Circulacion_CompletoITEM == null ? "" : p.Programa_Circulacion_CompletoITEM,
+                Titulo = p.Maestro_Servicios.Servicio.ToString(),
+                Cantidad_Solicitada = p.Cantidad_Solicitada_Solicitante.GetValueOrDefault(),
+                CostoUnidad_Solicitada = p.Costo_Unidad_Solicitante.Value,
+                CantidadConfimada = p.Cantidad_Solicitada_Confirmada.Value,
+                CostoConfimada = p.Costo_Unidad_Confirmada.Value,
+                ConceptoFacturacion = p.Concepto_De_Facturacion,
+                ConceptoFactura = p.Concepto_A_Facturar,
+                ImporteAntesIVA = p.Importe_Antes_IVA.Value,
+                ItemFacturacion = p.Item_Facturacion.ToString(),
+                CantidadEjecutada = p.Cantidad_Ejecutada.Value,
+                Editor = p.Facturacion_Solicitud.Maestro_Editoriales.Nombre.ToString(),
+                FechaCreacion = p.Facturacion_Solicitud.Creation_Timestamp.ToShortDateString(),
+                Solicitante = p.Facturacion_Solicitud.AspNetUsers_Alternative.ApellidoPaterno + " " + p.Facturacion_Solicitud.AspNetUsers_Alternative.ApellidoMaterno + " " + p.Facturacion_Solicitud.AspNetUsers_Alternative.Nombres
+
+            }).ToList());
+
+            Response.ClearContent();
+            Response.Buffer = false;
+            Response.ClearHeaders();
+
+            //Creación de reporte
+            try
+            {
+                Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
+                stream.Seek(0, SeekOrigin.Begin);
+
+                return File(stream, "application/pdf", "Solicitud_Servicio_" + SolicitudID + ".pdf");
+
+            }
+            catch (Exception)
+            {
+                //return null;
+                throw;
+            }
+
+            return null;
+        }
+
+
+public DataTable spGetData(string spName, string[] spParameters)
+        {
+
+            using (SqlConnection cn = new SqlConnection(ConfigurationManager.ConnectionStrings["Global"].ConnectionString))
+            {
+                cn.Open();
+                DataTable dt = new DataTable();
+
+                SqlCommand cmd = new SqlCommand(spName, cn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                for (int i = 0; i <= spParameters.Count() - 1; i++)
+                {
+                    String[] substrings = spParameters[i].Split(':');
+                    cmd.Parameters.AddWithValue(substrings[0], substrings[1]);
+                }
+
+                cmd.ExecuteNonQuery();
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                da.Fill(dt);
+
+                if (dt.Rows.Count > 0)
+                {
+                    //for (int i = 0; i < rows.Length; i++)
+                    //{
+                    //    Console.WriteLine(rows[i]["Order_Back"]);
+                    //}
+
+                    returnedDt = dt;
+                }
+                else
+                {
+                    returnedDt = null;
+                }
+                //else
+                //{
+
+                //}
+            }
+            return returnedDt;
+        }
+                TotalImporte = Convert.IsDBNull(x["TotalImporte"]) ? 0.0 : Math.Round((double)x["TotalImporte"], 3)
+
+        DataTable ServiciosGeneral = sql.spGetData("[dbo].[Admin_Intranet_FacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + Id });
+List<Programa_Circulacion_Cabecero_Solicitud> listServiciosGeneral = ServiciosGeneral.AsEnumerable().Select(x => new Programa_Circulacion_Cabecero_Solicitud { 
+                    Id = (int)x["Id"]
+                    ,Facturacion_SolicitudId = Convert.IsDBNull(x["Facturacion_SolicitudId"])?0: (int)x["Facturacion_SolicitudId"]
+                    ,ITEM = Convert.IsDBNull(x["Programa_Circulacion_CompletoITEM"])?"": (string)x["Programa_Circulacion_CompletoITEM"]
+                    ,TITULO = Convert.IsDBNull(x["TITULO"])?"":(string)x["TITULO"]
+                    ,ItemFacturacion = Convert.IsDBNull(x["Item_Facturacion"]) ? "" : (string)x["Item_Facturacion"]
+                    ,Servicio = Convert.IsDBNull(x["Servicio"])?"": (string)x["Servicio"]
+                    ,Unidad = Convert.IsDBNull(x["Unidad"])?"": (string)x["Unidad"]
+                    ,TOTAL_PROGRAMADO = Convert.IsDBNull(x["Dotacion"])?0: (int)x["Dotacion"]
+                    ,Disponible = Convert.IsDBNull(x["Restante"])?0: (int)x["Restante"]
+                    ,Cantidad_Solicitada_Solicitante = Convert.IsDBNull(x["Cantidad_Solicitada_Solicitante"])?0: (int)x["Cantidad_Solicitada_Solicitante"]
+                    ,Cantidad_Solicitada_Confirmada = Convert.IsDBNull(x["Cantidad_Solicitada_Confirmada"])?0: (int)x["Cantidad_Solicitada_Confirmada"]
+                    ,Costo_Unidad_Solicitante = Convert.IsDBNull(x["CostoUnitarioSolicitado"]) ? 0.0 : Math.Round((double)x["CostoUnitarioSolicitado"],3)
+                    ,Costo_Unidad_Confirmada = Convert.IsDBNull(x["Costo_Unidad_Confirmada"]) ? 0.0 : Math.Round((double)x["Costo_Unidad_Confirmada"],3)
+                    ,Cantidad_Ejecutada = Convert.IsDBNull(x["Cantidad_Ejecutada"])?0: (int)x["Cantidad_Ejecutada"]
+                    ,Total = Convert.IsDBNull(x["Total"]) ? 0.0 : Math.Round((double)x["Total"], 3)
+                }).ToList();
+
+
+Data Source=133.1.10.58;Initial Catalog=Global;Persist Security Info=True;User ID=Desarrollo;Password=9X#K_osR; MultipleActiveResultSets=True;
+
+
+listo a trabajar

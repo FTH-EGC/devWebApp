@@ -1,0 +1,11 @@
+select 
+round(convert(float,Cantidad_Solicitada_Solicitante) * Costo_Unidad_Solicitante,2)
+from Facturacion_Solicitud_Detalle
+where 1 = 1
+	and Facturacion_SolicitudId = 936
+
+select 
+sum(round(convert(float,Cantidad_Solicitada_Solicitante) * Costo_Unidad_Solicitante,2))
+from Facturacion_Solicitud_Detalle
+where 1 = 1
+	and Facturacion_SolicitudId = 936
