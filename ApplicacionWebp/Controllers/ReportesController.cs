@@ -30,11 +30,11 @@ namespace ApplicacionWebp.Controllers
 
             ReportDocument rd = new ReportDocument();
 
-            rd.Load(Path.Combine(Server.MapPath("~/Reports/CrystalReport5.rpt")));
+            rd.Load(Path.Combine(Server.MapPath("~/Reports/Solicitud_Servicio.rpt")));
 
 
             SqlSP spSql = new SqlSP();
-            DataTable ServiciosGeneral = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + "838", });
+            DataTable ServiciosGeneral = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + 838 });
             List<Facturacion_Solicitud_Detalle> listServiciosGeneral = ServiciosGeneral.AsEnumerable().Select(x => new Facturacion_Solicitud_Detalle
             {
                 Id = (int)x["Id"]
@@ -79,7 +79,7 @@ namespace ApplicacionWebp.Controllers
             }).ToList();
 
 
-            DataTable ServiciosGeneralSum = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:GetSum", "@idBA:" + "838", });
+            DataTable ServiciosGeneralSum = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:GetSum", "@idBA:" + 838 });
             List<Facturacion_Solicitud_Detalle> listServiciosGeneralSum = ServiciosGeneralSum.AsEnumerable().Select(x => new Facturacion_Solicitud_Detalle
             {
                TotalImporte = Convert.IsDBNull(x["TotalImporte"]) ? 0.0 : Math.Round((double)x["TotalImporte"], 3)
