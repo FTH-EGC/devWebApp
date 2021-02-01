@@ -12,6 +12,7 @@ namespace ApplicacionWebp.Models.ViewModels
         public int Facturacion_SolicitudId { get; set; }
         public DateTime Creation_Timestamp { get; set; }
         public string Nombre { get; set; }
+        public string Nombre_Elaboro { get; set; }
         public string Servicio { get; set; }
         public string Unidad { get; set; }
         public string Item_Facturacion { get; set; }
