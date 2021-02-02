@@ -173,7 +173,6 @@ C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\es\
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\es\System.Web.WebPages.resources.dll
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\es\System.Web.WebPages.Deployment.resources.dll
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\es\System.Web.WebPages.Razor.resources.dll
-C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\obj\Debug\ApplicacionWebp.csprojAssemblyReference.cache
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\obj\Debug\ApplicacionWebp.csproj.CoreCompileInputs.cache
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\obj\Debug\ApplicacionWebp.csproj.CopyComplete
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\obj\Debug\ApplicacionWebp.dll
@@ -195,3 +194,4 @@ C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\Cry
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\CrystalDecisions.ReportAppServer.CommonControls.dll
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\stdole.dll
 C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\bin\CrystalDecisions.Web.dll
+C:\Users\ossanchezc\Documents\GitHub\Repos\Dev\devWebApp\ApplicacionWebp\obj\Debug\ApplicacionWebp.csprojAssemblyReference.cache

@@ -34,7 +34,7 @@ namespace ApplicacionWebp.Controllers
 
 
             SqlSP spSql = new SqlSP();
-            DataTable ServiciosGeneral = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + 838 });
+            DataTable ServiciosGeneral = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + 914 });
             List<Facturacion_Solicitud_Detalle> listServiciosGeneral = ServiciosGeneral.AsEnumerable().Select(x => new Facturacion_Solicitud_Detalle
             {
                 Id = (int)x["Id"]
@@ -50,13 +50,14 @@ namespace ApplicacionWebp.Controllers
                 ,Cantidad_Ejecutada = Convert.IsDBNull(x["Cantidad_Ejecutada"]) ? 0 : (int)x["Cantidad_Ejecutada"]
                 ,Creation_Timestamp = Convert.IsDBNull(x["Creation_Timestamp"]) ? DateTime.Parse("") : (DateTime)x["Creation_Timestamp"]
                 ,Nombre = Convert.IsDBNull(x["Nombre"]) ? "" : (string)x["Nombre"]
+                ,Nombre_Elaboro = Convert.IsDBNull(x["Nombre_Elaboro"]) ? "" : (string)x["Nombre_Elaboro"]
                 ,CostoUnitario_SinIVA = Convert.IsDBNull(x["CostoUnitario_SinIVA"]) ? 0.0 : Math.Round((double)x["CostoUnitario_SinIVA"], 3)
                 ,Concepto_De_Facturacion = Convert.IsDBNull(x["Concepto_De_Facturacion"]) ? 0 : (int)x["Concepto_De_Facturacion"]
                 ,Concepto_A_Facturar = Convert.IsDBNull(x["Concepto_A_Facturar"]) ? 0 : (int)x["Concepto_A_Facturar"]
                 ,Importe_Antes_IVA = Convert.IsDBNull(x["Importes_Antes_IVA"]) ? 0 : (double)x["Importes_Antes_IVA"]
-                ,Nombre_Elaboro = Convert.IsDBNull(x["Nombre_Elaboro"]) ? "" : (string)x["Nombre_Elaboro"]
+                ,Costo_Unitario = Convert.IsDBNull(x["Costo_Unitario"]) ? 0 : (double)x["Costo_Unitario"]
                 
-
+               
 
             }).ToList();
 
@@ -79,7 +80,7 @@ namespace ApplicacionWebp.Controllers
                 Stream stream = rd.ExportToStream(CrystalDecisions.Shared.ExportFormatType.PortableDocFormat);
                 stream.Seek(0, SeekOrigin.Begin);
 
-                return File(stream, "application/pdf", "Solicitud_Servicio_" + 838 + ".pdf");
+                return File(stream, "application/pdf", "Solicitud_Servicio_" + 914 + ".pdf");
 
             }
             catch (Exception)

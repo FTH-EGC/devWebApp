@@ -17,10 +17,10 @@ namespace ApplicacionWebp.Models.ViewModels
         public string Unidad { get; set; }
         public string Item_Facturacion { get; set; }
         public string Titulo { get; set; }
-        public double Cantidad_Solicitada_Solicitante { get; set; }
+        public int Cantidad_Solicitada_Solicitante { get; set; }
         public double CostoUnitario_SinIVA { get; set; }
         public string Programa_Circulacion_CompletoITEM { get; set; }
-        public double Cantidad_Solicitada_Confirmada { get; set; }
+        public int Cantidad_Solicitada_Confirmada { get; set; }
         public double Costo_Unidad_Confirmada { get; set; }
         public double Costo_Unidad_Solicitante { get; set; }
         public int Cantidad_Ejecutada { get; set; }
@@ -28,6 +28,7 @@ namespace ApplicacionWebp.Models.ViewModels
         public double Concepto_A_Facturar { get; set; }
         public double Importe_Antes_IVA { get; set; }
         public double TotalImporte { get; set; }
+        public double Costo_Unitario { get; set; }
 
     }
 }
