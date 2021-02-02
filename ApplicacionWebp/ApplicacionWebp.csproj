@@ -174,10 +174,18 @@
     <Compile Include="Models\ViewModels\ListTablaViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reports\Solicitud_Servicio.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Reports\Solicitud_Servicio1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Solicitud_Servicio.rpt</DependentUpon>
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="RepoteDemo.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RepoteDemo.xsd</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -229,6 +237,17 @@
     </None>
     <Content Include="DataSet1.xss">
       <DependentUpon>DataSet1.xsd</DependentUpon>
+    </Content>
+    <Content Include="RepoteDemo.xsc">
+      <DependentUpon>RepoteDemo.xsd</DependentUpon>
+    </Content>
+    <None Include="RepoteDemo.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>RepoteDemo.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="RepoteDemo.xss">
+      <DependentUpon>RepoteDemo.xsd</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -290,7 +309,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Reports\Solicitud_Servicio.rpt">
       <Generator>CrystalDecisions.VSDesigner.CodeGen.ReportCodeGenerator</Generator>
-      <LastGenOutput>Solicitud_Servicio.cs</LastGenOutput>
+      <LastGenOutput>Solicitud_Servicio1.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

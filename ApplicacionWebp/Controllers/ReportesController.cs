@@ -32,6 +32,7 @@ namespace ApplicacionWebp.Controllers
 
             rd.Load(Path.Combine(Server.MapPath("~/Reports/Solicitud_Servicio.rpt")));
 
+            List<Facturacion_Solicitud_Detalle> facturacion_Solicitud_Detalle = new List<Facturacion_Solicitud_Detalle>();
 
             SqlSP spSql = new SqlSP();
             DataTable ServiciosGeneral = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:DetalledeFacturaId", "@idBA:" + 914 });
@@ -50,27 +51,49 @@ namespace ApplicacionWebp.Controllers
                 ,Cantidad_Ejecutada = Convert.IsDBNull(x["Cantidad_Ejecutada"]) ? 0 : (int)x["Cantidad_Ejecutada"]
                 ,Creation_Timestamp = Convert.IsDBNull(x["Creation_Timestamp"]) ? DateTime.Parse("") : (DateTime)x["Creation_Timestamp"]
                 ,Nombre = Convert.IsDBNull(x["Nombre"]) ? "" : (string)x["Nombre"]
-                ,Nombre_Elaboro = Convert.IsDBNull(x["Nombre_Elaboro"]) ? "" : (string)x["Nombre_Elaboro"]
                 ,CostoUnitario_SinIVA = Convert.IsDBNull(x["CostoUnitario_SinIVA"]) ? 0.0 : Math.Round((double)x["CostoUnitario_SinIVA"], 3)
                 ,Concepto_De_Facturacion = Convert.IsDBNull(x["Concepto_De_Facturacion"]) ? 0 : (int)x["Concepto_De_Facturacion"]
                 ,Concepto_A_Facturar = Convert.IsDBNull(x["Concepto_A_Facturar"]) ? 0 : (int)x["Concepto_A_Facturar"]
                 ,Importe_Antes_IVA = Convert.IsDBNull(x["Importes_Antes_IVA"]) ? 0 : (double)x["Importes_Antes_IVA"]
                 ,Costo_Unitario = Convert.IsDBNull(x["Costo_Unitario"]) ? 0 : (double)x["Costo_Unitario"]
-                
+                ,Nombre_Elaboro = Convert.IsDBNull(x["Nombre_Elaboro"]) ? "" : (string)x["Nombre_Elaboro"]
                
-
             }).ToList();
 
 
-            DataTable ServiciosGeneralSum = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:GetSum", "@idBA:" + 838 });
+            DataTable ServiciosGeneralSum = spSql.spGetData("[dbo].[rptFacturacionSolicitud]", new string[] { "@Accion:GetSum", "@idBA:" + 914 });
             List<Facturacion_Solicitud_Detalle> listServiciosGeneralSum = ServiciosGeneralSum.AsEnumerable().Select(x => new Facturacion_Solicitud_Detalle
             {
-               TotalImporte = Convert.IsDBNull(x["TotalImporte"]) ? 0.0 : Math.Round((double)x["TotalImporte"], 3)
+                TotalImporte = Convert.IsDBNull(x["TotalImporte"]) ? 0.0 : Math.Round((double)x["TotalImporte"], 3)
             }).ToList();
 
-            listServiciosGeneral = listServiciosGeneral.Concat(listServiciosGeneralSum).ToList();
 
-            rd.SetDataSource(listServiciosGeneral);
+           //listServiciosGeneral = listServiciosGeneral.Concat(listServiciosGeneralSum).ToList();
+
+            rd.SetDataSource(listServiciosGeneral.Select(p => new
+            {
+                Facturacion_SolicitudId = p.Facturacion_SolicitudId.ToString(),
+                Programa_Circulacion_CompletoITEM = p.Programa_Circulacion_CompletoITEM,
+                Titulo = p.Titulo,
+                Item_Facturacion = p.Item_Facturacion,
+                Servicio = p.Servicio,
+                Cantidad_Solicitada_Solicitante = p.Cantidad_Solicitada_Solicitante,
+                Cantidad_Solicitada_Confirmada = p.Cantidad_Solicitada_Confirmada,
+                Costo_Unidad_Solicitante = p.Costo_Unidad_Solicitante,
+                Costo_Unidad_Confirmada = p.Costo_Unidad_Confirmada,
+                Cantidad_Ejecutada = p.Cantidad_Ejecutada,
+                Creation_Timestamp = p.Creation_Timestamp,
+                Nombre = p.Nombre,
+                Unidad = p.Unidad,
+                CostoUnitario_SinIVA = p.CostoUnitario_SinIVA,
+                Concepto_De_Facturacion = p.Concepto_De_Facturacion,
+                Concepto_A_Facturar = p.Concepto_A_Facturar,
+                Importe_Antes_IVA = p.Importe_Antes_IVA,
+                Costo_Unitario = p.Costo_Unitario,
+                Nombre_Elaboro = p.Nombre_Elaboro,
+                TotalImporte = p.TotalImporte
+            })
+            );
             Response.ClearContent();
             Response.Buffer = false;
             Response.ClearHeaders();

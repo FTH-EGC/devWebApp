@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace IntermexMasterManager.Reports {
+namespace ApplicacionWebp.Reports {
     using System;
     using System.ComponentModel;
     using CrystalDecisions.Shared;
@@ -41,7 +41,7 @@ namespace IntermexMasterManager.Reports {
         
         public override string FullResourceName {
             get {
-                return "IntermexMasterManager.Reports.Solicitud_Servicio.rpt";
+                return "ApplicacionWebp.Reports.Solicitud_Servicio.rpt";
             }
             set {
                 // Do nothing
